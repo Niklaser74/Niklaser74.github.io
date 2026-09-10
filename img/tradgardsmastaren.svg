@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="Trädgårdsmästaren">
+  <!-- flat cartoon, same ink outline as the game's snails -->
+  <g stroke="#3a2210" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+    <!-- ground -->
+    <path d="M6 116 Q40 108 64 116 T122 116" fill="none" stroke="#2f7a2b"/>
+    <!-- salt shaker in the raised hand -->
+    <rect x="94" y="46" width="16" height="26" rx="4" fill="#fffaf2"/>
+    <rect x="94" y="40" width="16" height="9" rx="3" fill="#8a7a6a"/>
+    <!-- salt grains -->
+    <g fill="#fff" stroke="none">
+      <circle cx="98" cy="82" r="1.6"/><circle cx="104" cy="88" r="1.6"/><circle cx="100" cy="95" r="1.6"/><circle cx="108" cy="98" r="1.6"/>
+    </g>
+    <!-- body: overalls -->
+    <path d="M40 116 V76 q24 -10 48 0 V116 Z" fill="#3b82f6"/>
+    <!-- shirt -->
+    <path d="M44 74 q20 -12 40 0 l-4 10 q-16 -6 -32 0 Z" fill="#ff9e3d"/>
+    <!-- straps -->
+    <path d="M50 76 V96 M78 76 V96" fill="none"/>
+    <!-- arms -->
+    <path d="M42 80 q-14 8 -10 22" fill="none" stroke-width="7" stroke="#f2c9a0"/>
+    <path d="M86 80 q12 -14 16 -8" fill="none" stroke-width="7" stroke="#f2c9a0"/>
+    <!-- head -->
+    <circle cx="64" cy="52" r="18" fill="#f2c9a0"/>
+    <!-- moustache and frown -->
+    <path d="M54 60 q10 -6 20 0" fill="none"/>
+    <path d="M52 56 q12 6 24 0" fill="#6e4324" stroke="#6e4324" stroke-width="5"/>
+    <!-- eyes -->
+    <circle cx="57" cy="48" r="2.4" fill="#1f1710" stroke="none"/>
+    <circle cx="71" cy="48" r="2.4" fill="#1f1710" stroke="none"/>
+    <!-- angry brows -->
+    <path d="M52 42 l10 3 M76 42 l-10 3" fill="none"/>
+    <!-- straw hat -->
+    <path d="M30 40 Q64 30 98 40 Q64 48 30 40 Z" fill="#e8c56a"/>
+    <path d="M46 38 Q46 20 64 18 Q82 20 82 38 Z" fill="#f2d98a"/>
+    <path d="M46 34 H82" fill="none" stroke="#3aaa5c" stroke-width="4"/>
+  </g>
+</svg>

@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+# Legacy GitHub Pages docs of another project, reachable here only because the
+# domain sits on the account's user site. Not part of snails.se.
+Disallow: /tipspromenaden/
+Sitemap: https://snails.se/sitemap.xml

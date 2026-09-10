@@ -1,0 +1,91 @@
+/* The hub shares the game's palette (css/style.css in the snailmageddon repo):
+   ink, cream panels, warm lines, the green accent and the sky. */
+:root {
+  --ink: #1f1710;
+  --muted: #6a5a4a;
+  --soft: #8a7a6a;
+  --bg: #f4efe6;
+  --panel: #fffaf2;
+  --line: #e0d4c2;
+  --chip: #efe6d6;
+  --accent: #3aaa5c;
+  --accent-ink: #fff;
+  --sky: #5fb0ea;
+}
+* { box-sizing: border-box; }
+html { color-scheme: light; scroll-behavior: smooth; }
+body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color: var(--ink); background: var(--bg); line-height: 1.5; }
+a { color: inherit; }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+
+.skip { position: absolute; left: -999px; top: 8px; background: var(--ink); color: #fff; padding: 8px 12px; border-radius: 8px; z-index: 10; }
+.skip:focus { left: 8px; }
+
+/* ---------- hero ---------- */
+.hero { position: relative; min-height: 520px; height: min(80vh, 760px); overflow: hidden; background: var(--sky); }
+.hero canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.hero-inner { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 22px 24px; display: flex; flex-direction: column; gap: 14px; }
+.topbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.wordmark { display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 22px; letter-spacing: .01em; text-decoration: none; color: var(--ink); background: rgba(255, 250, 240, .9); border: 1px solid var(--line); border-radius: 12px; padding: 6px 12px 6px 8px; }
+.wordmark img { width: 30px; height: 30px; }
+.topnav { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.topnav a { font-size: 14px; font-weight: 700; text-decoration: none; background: rgba(255, 250, 240, .9); border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px; }
+.topnav a:hover { background: var(--chip); }
+.lang { display: flex; gap: 2px; background: rgba(255, 250, 240, .9); border: 1px solid var(--line); border-radius: 999px; padding: 3px; }
+.lang button { font: inherit; font-size: 13px; font-weight: 700; border: 0; background: transparent; padding: 5px 12px; border-radius: 999px; cursor: pointer; color: var(--muted); }
+.lang button[aria-pressed="true"] { background: var(--ink); color: #fff; }
+.hero-text { max-width: 560px; background: rgba(255, 250, 240, .92); border: 1px solid var(--line); border-radius: 18px; padding: 22px 24px; box-shadow: 0 20px 60px rgba(0, 0, 0, .18); margin-top: 6px; }
+.kicker { text-transform: uppercase; letter-spacing: .12em; font-size: 12px; font-weight: 800; color: var(--accent); margin: 0 0 6px; }
+h1 { margin: 0 0 8px; font-size: clamp(30px, 5vw, 46px); line-height: 1.05; }
+.lead { margin: 0 0 16px; color: var(--muted); font-size: 17px; }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.btn { font: inherit; font-weight: 700; padding: 11px 18px; border-radius: 10px; border: 0; text-decoration: none; display: inline-block; cursor: pointer; }
+.btn.primary { background: var(--accent); color: var(--accent-ink); }
+.btn.primary:hover { filter: brightness(1.06); }
+.btn.secondary { background: var(--chip); color: var(--ink); }
+.btn.secondary:hover { background: #e6dbc8; }
+
+/* ---------- sections ---------- */
+main { max-width: 1100px; margin: 0 auto; padding: 8px 24px 40px; }
+section { padding: 36px 0 8px; }
+h2 { font-size: 28px; margin: 0 0 6px; }
+.section-lead { margin: 0 0 18px; color: var(--muted); max-width: 70ch; }
+
+/* ---------- game cards ---------- */
+.cards { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.card { position: relative; background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 18px; display: flex; flex-direction: column; gap: 10px; }
+.card.live { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr; gap: 14px; }
+@media (min-width: 760px) { .card.live { grid-template-columns: 320px 1fr; align-items: center; } }
+.card canvas.snail { width: 100%; max-width: 320px; aspect-ratio: 7 / 4; display: block; border-radius: 12px; background: linear-gradient(#bfe3ff, #eaf6ff 60%, #7ccf7c 60%, #5aa85a); }
+.card:not(.live) canvas.snail { max-width: 200px; }
+.badge { position: absolute; top: 14px; right: 14px; font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; padding: 4px 9px; border-radius: 999px; background: var(--chip); color: var(--muted); }
+.badge.live { background: var(--accent); color: #fff; }
+.card h3 { margin: 0; font-size: 20px; }
+.card.live h3 { font-size: 26px; }
+.card p { margin: 0; color: var(--muted); font-size: 15px; }
+.card .body { display: flex; flex-direction: column; gap: 10px; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag { font-size: 11px; padding: 3px 8px; border-radius: 999px; background: var(--chip); color: #5a4a3a; }
+
+/* ---------- the garden ---------- */
+.garden { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+.figure { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 18px 16px; text-align: center; }
+.figure img { width: 128px; height: 128px; display: block; margin: 0 auto 10px; }
+.figure h3 { margin: 0 0 4px; font-size: 17px; }
+.figure p { margin: 0; color: var(--muted); font-size: 14px; }
+
+/* ---------- footer ---------- */
+footer { border-top: 1px dashed var(--line); margin-top: 24px; padding: 22px 24px 40px; }
+.foot { max-width: 1100px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 14px 24px; align-items: center; justify-content: space-between; font-size: 13px; color: var(--soft); }
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand img { width: 64px; height: 50px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0, 0, 0, .25); }
+.brand a { font-weight: 700; text-decoration: none; }
+.brand a:hover { text-decoration: underline; }
+.foot nav { display: flex; flex-wrap: wrap; gap: 14px; }
+
+/* ---------- 404 ---------- */
+.lost { max-width: 640px; margin: 10vh auto; padding: 0 24px; }
+.lost .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 24px; }
+
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }

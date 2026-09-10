@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="Koltrasten">
+  <g stroke="#3a2210" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+    <!-- branch -->
+    <path d="M8 96 Q40 92 70 98 T122 94" fill="none" stroke="#6e4324" stroke-width="7"/>
+    <path d="M40 94 q-6 -10 -14 -12" fill="none" stroke="#6e4324" stroke-width="4"/>
+    <path d="M26 82 q-10 -6 -6 -14 q10 2 8 14 Z" fill="#6cc25a"/>
+    <!-- tail -->
+    <path d="M28 62 l-20 -10 l6 20 Z" fill="#1f1710"/>
+    <!-- body -->
+    <ellipse cx="62" cy="66" rx="34" ry="24" fill="#1f1710"/>
+    <!-- wing -->
+    <path d="M44 60 q20 -12 42 4 q-18 14 -42 -4 Z" fill="#3a3a3a" stroke="none"/>
+    <!-- head -->
+    <circle cx="90" cy="46" r="16" fill="#1f1710"/>
+    <!-- eye with the yellow ring -->
+    <circle cx="94" cy="42" r="5" fill="#ffd54f" stroke="none"/>
+    <circle cx="94" cy="42" r="2.4" fill="#1f1710" stroke="none"/>
+    <!-- beak -->
+    <path d="M104 46 l18 4 l-18 6 Z" fill="#ff9e3d"/>
+    <!-- legs -->
+    <path d="M52 88 v8 M50 96 h6 M70 90 v6 M68 96 h6" fill="none" stroke="#ff9e3d" stroke-width="3"/>
+    <!-- a very small snail, worried -->
+    <g transform="translate(96 82) scale(0.6)">
+      <path d="M0 22 q10 -8 26 -4 q-6 12 -26 6 Z" fill="#d9a066"/>
+      <circle cx="10" cy="8" r="11" fill="#e2453c"/>
+      <path d="M10 8 m-6 0 a6 6 0 1 1 12 0 a4 4 0 1 1 -8 0" fill="none" stroke="#fff3c4" stroke-width="2.5"/>
+      <path d="M24 16 l4 -8 M28 16 l6 -6" fill="none"/>
+      <circle cx="28" cy="7" r="1.8" fill="#1f1710" stroke="none"/><circle cx="34" cy="9" r="1.8" fill="#1f1710" stroke="none"/>
+    </g>
+  </g>
+</svg>

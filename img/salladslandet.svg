@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="Salladslandet">
+  <g stroke="#3a2210" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+    <!-- soil bed -->
+    <path d="M8 108 Q64 96 120 108 V118 H8 Z" fill="#8b5a34"/>
+    <path d="M20 106 q6 -4 12 0 M50 104 q6 -4 12 0 M84 105 q6 -4 12 0" fill="none" stroke="#6e4324" stroke-width="2"/>
+    <!-- lettuces: three heads, layered leaves -->
+    <g>
+      <ellipse cx="34" cy="82" rx="22" ry="18" fill="#3f8f3b"/>
+      <path d="M14 84 q10 -24 40 -8 q-10 22 -40 8 Z" fill="#6cc25a"/>
+      <path d="M22 78 q12 -18 30 -4 q-12 16 -30 4 Z" fill="#bfe37a" stroke="none"/>
+    </g>
+    <g>
+      <ellipse cx="94" cy="80" rx="22" ry="18" fill="#3f8f3b"/>
+      <path d="M74 82 q10 -24 40 -8 q-10 22 -40 8 Z" fill="#6cc25a"/>
+      <path d="M82 76 q12 -18 30 -4 q-12 16 -30 4 Z" fill="#bfe37a" stroke="none"/>
+    </g>
+    <g>
+      <ellipse cx="64" cy="96" rx="24" ry="18" fill="#3f8f3b"/>
+      <path d="M42 98 q12 -26 44 -8 q-12 24 -44 8 Z" fill="#6cc25a"/>
+      <path d="M50 92 q14 -18 32 -4 q-14 16 -32 4 Z" fill="#bfe37a" stroke="none"/>
+    </g>
+    <!-- a bite already taken -->
+    <circle cx="112" cy="70" r="5" fill="#f4efe6" stroke="none"/>
+    <!-- the snail on its way -->
+    <g transform="translate(6 40) scale(0.9)">
+      <path d="M0 24 q12 -10 30 -4 q-8 14 -30 6 Z" fill="#d9a066"/>
+      <circle cx="12" cy="9" r="12" fill="#3aaa5c"/>
+      <path d="M12 9 m-7 0 a7 7 0 1 1 14 0 a4.5 4.5 0 1 1 -9 0" fill="none" stroke="#fff3c4" stroke-width="2.5"/>
+      <path d="M28 16 l4 -9 M32 17 l7 -7" fill="none"/>
+      <circle cx="32" cy="6" r="2" fill="#1f1710" stroke="none"/><circle cx="39" cy="9" r="2" fill="#1f1710" stroke="none"/>
+    </g>
+  </g>
+</svg>

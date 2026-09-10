@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<!-- Old game links, app shortcuts and installed copies of Snäckmageddon still arrive at "/".
+     Decide before anything renders; js/legacy.js says what counts as one of those. -->
+<script src="/js/legacy.js"></script>
+<script>(function () {
+  var mm = window.matchMedia ? window.matchMedia.bind(window) : null;
+  var target = legacyTarget(location, navigator, mm, document.referrer);
+  if (target) location.replace(target);
+})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#5fb0ea">
+<title>snails.se – snigelspel från Knackpot</title>
+<meta name="description" content="Klassiska spel i snigelversion, samlade på snails.se. Snäckmageddon är först: turbaserat artilleri med afrikanska jättesnäckor.">
+<link rel="canonical" href="https://snails.se/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="snails.se">
+<meta property="og:title" content="snails.se – Klassikerna. Fast långsamt.">
+<meta property="og:description" content="Klassiska spel i snigelversion. Snäckmageddon är först: turbaserat artilleri med afrikanska jättesnäckor. / Classic games, snail edition.">
+<meta property="og:image" content="https://snails.se/img/og-1200x630.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://snails.se/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="snails.se – snigelspel">
+<meta name="twitter:image" content="https://snails.se/img/og-1200x630.png">
+<link rel="icon" href="/icons/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/css/hub.css">
+</head>
+<body>
+<a class="skip" href="#games" data-i18n="nav.games">Spelen</a>
+
+<header class="hero">
+  <canvas id="garden" aria-hidden="true"></canvas>
+  <div class="hero-inner">
+    <div class="topbar">
+      <a class="wordmark" href="/"><img src="/icons/favicon.svg" alt="" width="30" height="30">snails.se</a>
+      <nav class="topnav" aria-label="Meny">
+        <a href="#games" data-i18n="nav.games">Spelen</a>
+        <a href="#garden-section" data-i18n="nav.garden">Trädgården</a>
+        <div class="lang" role="group" aria-label="Språk / Language">
+          <button type="button" data-lang="sv" aria-pressed="true">Svenska</button>
+          <button type="button" data-lang="en" aria-pressed="false">English</button>
+        </div>
+      </nav>
+    </div>
+    <div class="hero-text">
+      <p class="kicker" data-i18n="hero.kicker">Snigelspel</p>
+      <h1 data-i18n="hero.title">Klassikerna. Fast långsamt.</h1>
+      <p class="lead" data-i18n="hero.text">Nästan alla klassiska spel bygger på fart. Sniglar är långsamma. Det är hela skämtet, och vi tänker dra det så långt det går.</p>
+      <div class="actions">
+        <a class="btn primary" href="/snailmageddon/" data-i18n="hero.play">Spela Snäckmageddon</a>
+        <a class="btn secondary" href="#games" data-i18n="hero.more">Alla spel</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section id="games">
+    <h2 data-i18n="games.title">Spelen</h2>
+    <p class="section-lead" data-i18n="games.lead">Ett spel är spelbart, resten kryper hitåt. Samma sniglar i alla, ritade av samma kod.</p>
+    <div class="cards">
+      <article class="card live">
+        <canvas class="snail" data-color="#3aaa5c" width="280" height="160" aria-hidden="true"></canvas>
+        <div class="body">
+          <span class="badge live" data-i18n="badge.live">Spelbart nu</span>
+          <h3 data-i18n="g1.title">Snäckmageddon</h3>
+          <p data-i18n="g1.text">Turbaserat artilleri med afrikanska jättesnäckor. Långsamma. Skalade. Dödliga. Spela mot datorn, mot kompisar på samma skärm eller via Snigelpost i egen takt – ett drag när du hinner.</p>
+          <div class="tags">
+            <span class="tag" data-i18n="g1.tag1">Worms-stil</span>
+            <span class="tag" data-i18n="g1.tag2">Snigelpost</span>
+            <span class="tag" data-i18n="g1.tag3">Dagens skott</span>
+            <span class="tag" data-i18n="g1.tag4">Funkar offline</span>
+          </div>
+          <div class="actions">
+            <a class="btn primary" href="/snailmageddon/" data-i18n="g1.play">Spela</a>
+            <a class="btn secondary" href="https://knackpot.itch.io/snailmageddon" rel="noopener" data-i18n="g1.itch">Även på itch.io</a>
+          </div>
+        </div>
+      </article>
+      <article class="card">
+        <span class="badge" data-i18n="badge.soon">På gång</span>
+        <canvas class="snail" data-color="#f0c419" width="280" height="160" aria-hidden="true"></canvas>
+        <h3 data-i18n="g2.title">Snailman</h3>
+        <p data-i18n="g2.text">Pac-Man där spökena jagar i snigelfart. Slemspåret är mekaniken: du får inte korsa ditt eget.</p>
+      </article>
+      <article class="card">
+        <span class="badge" data-i18n="badge.soon">På gång</span>
+        <canvas class="snail" data-color="#e2453c" width="280" height="160" aria-hidden="true"></canvas>
+        <h3 data-i18n="g3.title">Snail Racing</h3>
+        <p data-i18n="g3.text">Ett lopp tar tjugo minuter i realtid. Satsa på din snigel, gör något annat och få en notis när det avgörs.</p>
+      </article>
+      <article class="card">
+        <span class="badge" data-i18n="badge.soon">På gång</span>
+        <canvas class="snail" data-color="#3b82f6" width="280" height="160" aria-hidden="true"></canvas>
+        <h3 data-i18n="g4.title">Snail Story</h3>
+        <p data-i18n="g4.text">Sköt om en snigel. Den gör ingenting. Den lever i tre år och du får en notis på födelsedagen.</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="garden-section">
+    <h2 data-i18n="garden.title">Trädgården</h2>
+    <p class="section-lead" data-i18n="garden.lead">Alla spelen utspelar sig i samma trädgård, med samma figurer. Ett spel kan alltid peka vidare till nästa.</p>
+    <div class="garden">
+      <div class="figure">
+        <img src="/img/tradgardsmastaren.svg" alt="" width="128" height="128">
+        <h3 data-i18n="garden.gardener">Trädgårdsmästaren</h3>
+        <p data-i18n="garden.gardener.text">Fienden. Salt, ölfällor och kopparband.</p>
+      </div>
+      <div class="figure">
+        <img src="/img/koltrasten.svg" alt="" width="128" height="128">
+        <h3 data-i18n="garden.blackbird">Koltrasten</h3>
+        <p data-i18n="garden.blackbird.text">Kommer uppifrån. Snabb, vilket är orättvist.</p>
+      </div>
+      <div class="figure">
+        <img src="/img/igelkotten.svg" alt="" width="128" height="128">
+        <h3 data-i18n="garden.hedgehog">Igelkotten</h3>
+        <p data-i18n="garden.hedgehog.text">Äter sniglar, men är nästan lika långsam.</p>
+      </div>
+      <div class="figure">
+        <img src="/img/salladslandet.svg" alt="" width="128" height="128">
+        <h3 data-i18n="garden.lettuce">Salladslandet</h3>
+        <p data-i18n="garden.lettuce.text">Målet med allt.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="foot">
+    <div class="brand">
+      <img src="/icons/knackpot-stacked-dark.svg" alt="Knackpot" width="64" height="50">
+      <span><a href="https://knackpot.se" rel="noopener" data-i18n="footer.by">En Knackpot-produkt</a></span>
+    </div>
+    <nav aria-label="Mer">
+      <a href="/privacy.html" data-i18n="footer.privacy">Integritetspolicy</a>
+      <a href="https://github.com/Niklaser74/snailmageddon" rel="noopener" data-i18n="footer.source">Källkod på GitHub</a>
+      <a href="mailto:hej@snails.se" data-i18n="footer.contact">hej@snails.se</a>
+    </nav>
+  </div>
+</footer>
+
+<script type="module" src="/js/hub.js"></script>
+</body>
+</html>

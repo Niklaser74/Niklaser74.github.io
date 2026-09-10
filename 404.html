@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<!-- GitHub Pages serves this for every unknown path on snails.se. Paths that
+     belonged to the game while it lived at the root are forwarded to it. -->
+<script>(function () {
+  var p = location.pathname;
+  var own = /^\/(snailmageddon|tipspromenaden)\//.test(p);
+  var game = /^\/(design|docs|js|css|icons)(\/|$)/.test(p) || p === '/manifest.webmanifest';
+  if (!own && game) location.replace('/snailmageddon' + p + location.search + location.hash);
+})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Hittade inte sidan – snails.se</title>
+<link rel="icon" href="/icons/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/css/hub.css">
+</head>
+<body>
+<div class="lost">
+  <div class="panel">
+    <p class="kicker">404</p>
+    <h1>Den här sidan kröp iväg.</h1>
+    <p class="lead">Sidan finns inte på snails.se. Spelet Snäckmageddon bor på <a href="/snailmageddon/">snails.se/snailmageddon/</a>, och alla spel finns på <a href="/">startsidan</a>.</p>
+    <p class="lead" lang="en">This page crawled away. The game lives at <a href="/snailmageddon/">snails.se/snailmageddon/</a>; every game is listed on <a href="/">the front page</a>.</p>
+    <div class="actions">
+      <a class="btn primary" href="/">snails.se</a>
+      <a class="btn secondary" href="/snailmageddon/">Snäckmageddon</a>
+    </div>
+  </div>
+</div>
+</body>
+</html>

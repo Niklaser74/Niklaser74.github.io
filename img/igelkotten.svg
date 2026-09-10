@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="Igelkotten">
+  <g stroke="#3a2210" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+    <!-- grass -->
+    <path d="M6 104 Q40 98 64 104 T122 104" fill="none" stroke="#2f7a2b"/>
+    <path d="M20 104 l3 -9 M27 104 l2 -7 M96 104 l3 -9 M104 104 l2 -7" fill="none" stroke="#3aaa5c"/>
+    <!-- spines -->
+    <path d="M24 100 L22 78 L30 84 L34 62 L42 72 L50 50 L56 64 L66 44 L72 60 L84 46 L86 64 L98 54 L96 72 L108 70 L102 84 L110 92 L100 100 Z" fill="#6e4324"/>
+    <!-- body -->
+    <ellipse cx="66" cy="86" rx="40" ry="20" fill="#8b5a34"/>
+    <!-- belly -->
+    <ellipse cx="72" cy="92" rx="30" ry="12" fill="#c9a377" stroke="none"/>
+    <!-- face -->
+    <path d="M96 80 q26 4 26 14 q-6 8 -28 6 Z" fill="#e8c9a0"/>
+    <circle cx="121" cy="94" r="4" fill="#1f1710" stroke="none"/>
+    <circle cx="104" cy="84" r="2.4" fill="#1f1710" stroke="none"/>
+    <!-- ear -->
+    <circle cx="96" cy="76" r="4" fill="#e8c9a0"/>
+    <!-- legs -->
+    <path d="M46 104 v6 M60 104 v6 M84 104 v6 M96 104 v6" fill="none" stroke="#3a2210" stroke-width="4"/>
+  </g>
+</svg>
