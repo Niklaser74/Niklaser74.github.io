@@ -56,6 +56,9 @@ kör `npm run sync:game`.
 
 1. Eget publikt repo under `Niklaser74`, Pages via samma `pages.yml`, **ingen**
    `CNAME` och ingen custom domain. Det hamnar på `snails.se/<repo>/`.
+   Skapa Pages-sajten en gång innan första körningen — workflow-tokenen får
+   inte göra det själv:
+   `gh api -X POST repos/Niklaser74/<repo>/pages -f build_type=workflow`
 2. Bara relativa sökvägar i spelet (`js/main.js`, `register('sw.js')`,
    manifest `start_url: "./"`, `scope: "./"`). Snäckmageddon har en test
    (`test/paths.test.mjs`) som stoppar rotrelativa sökvägar — kopiera den.
