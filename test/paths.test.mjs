@@ -11,7 +11,7 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (f) => readFileSync(join(root, f), 'utf8');
 const pages = ['index.html', '404.html', 'privacy.html'];
 const styles = readdirSync(join(root, 'css')).map((f) => `css/${f}`);
-const OTHER_SITES = ['/snailmageddon/', '/tipspromenaden/'];
+const OTHER_SITES = ['/snailmageddon/', '/snailchess/', '/tipspromenaden/'];
 
 function refs(text) {
   const out = [];
@@ -45,10 +45,10 @@ test('the root service worker is a kill-switch: no fetch, push or notification h
   assert.match(sw, /startsWith\('snackmageddon-'\)/);
 });
 
-test('sitemap only lists pages that exist or live under the game', () => {
+test('sitemap only lists pages that exist or live under a game', () => {
   for (const m of read('sitemap.xml').matchAll(/<loc>https:\/\/snails\.se(\/[^<]*)<\/loc>/g)) {
     const p = m[1];
-    if (p === '/' || p.startsWith('/snailmageddon/')) continue;
+    if (p === '/' || OTHER_SITES.some((g) => p.startsWith(g))) continue;
     assert.ok(existsSync(join(root, p)), `sitemap: ${p}`);
   }
 });
