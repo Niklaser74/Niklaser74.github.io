@@ -11,7 +11,7 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (f) => readFileSync(join(root, f), 'utf8');
 const pages = ['index.html', '404.html', 'privacy.html'];
 const styles = readdirSync(join(root, 'css')).map((f) => `css/${f}`);
-const OTHER_SITES = ['/snailmageddon/', '/snailchess/', '/snailrake/', '/tipspromenaden/'];
+const OTHER_SITES = ['/snailmageddon/', '/snailchess/', '/snailrake/', '/snailman/', '/tipspromenaden/'];
 
 function refs(text) {
   const out = [];
