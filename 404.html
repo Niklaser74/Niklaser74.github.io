@@ -6,7 +6,7 @@
      belonged to the game while it lived at the root are forwarded to it. -->
 <script>(function () {
   var p = location.pathname;
-  var own = /^\/(snailmageddon|snailchess|snailrake|snailman|tipspromenaden)\//.test(p);
+  var own = /^\/(snailmageddon|snailchess|snailrake|snailman|snailstory|tipspromenaden)\//.test(p);
   var game = /^\/(design|docs|js|css|icons)(\/|$)/.test(p) || p === '/manifest.webmanifest';
   if (!own && game) location.replace('/snailmageddon' + p + location.search + location.hash);
 })();</script>
