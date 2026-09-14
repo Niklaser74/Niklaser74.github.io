@@ -53,8 +53,21 @@ async function render() {
 }
 
 // ---------- sign in / link ----------
+// An anonymous account with nothing in it is not worth linking: signing in as
+// the Google account directly avoids "identity already linked" when the player
+// already has a real account elsewhere (the usual case on a second device).
+async function isEmptyAccount() {
+  try {
+    const p = await online.rpc('snails_profile');
+    const st = p.stats || {};
+    if (st.matches || st.wins || st.losses || st.dailyPlays || (p.awards || []).length || (p.purchases || []).length) return false;
+    const chess = await online.rpc('snailchess_my_matches').catch(() => []);
+    return !(Array.isArray(chess) && chess.length);
+  } catch { return false; }
+}
 const goGoogle = async (link) => {
   try {
+    if (link && await isEmptyAccount()) link = false;
     try { sessionStorage.setItem(BEFORE_KEY, online.userId() || ''); } catch { /* ignore */ }
     location.assign(await online.googleUrl(redirectTo(), link));
   } catch (e) { msg(accountError(e)); }
@@ -79,7 +92,15 @@ $('btn-logout').addEventListener('click', () => { online.signOut(); location.rel
 // coming back from Google or a mail link
 const afterAuth = async (back) => {
   if (back.type === 'error') {
-    if (back.code === 'identity_already_exists' || back.code === 'email_exists') { msg(t('acc.googleTaken')); $('btn-google-instead').hidden = false; }
+    if (back.code === 'identity_already_exists' || back.code === 'email_exists') {
+      if (await isEmptyAccount()) return goGoogle(false); // nothing to lose here: just sign in as that account
+      msg(t('acc.googleTaken'));
+      $('acc-status').textContent = t('acc.googleTaken');
+      $('acc-link').hidden = true;
+      $('btn-google-instead').hidden = false;
+      $('btn-google-instead').classList.replace('secondary', 'primary');
+      return;
+    }
     else msg(t('acc.error', { msg: back.message }));
   } else {
     const now = await online.ensureUserId().catch(() => null);
