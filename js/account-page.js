@@ -14,7 +14,7 @@ const NEXT_KEY = 'snails.next', BEFORE_KEY = 'snails.beforeOauth';
 const nextParam = new URLSearchParams(location.search).get('next');
 let next = null;
 try { next = nextParam || sessionStorage.getItem(NEXT_KEY); if (nextParam) sessionStorage.setItem(NEXT_KEY, nextParam); } catch { /* storage blocked */ }
-if (next && /^\/[a-z0-9-]+\/?$/i.test(next)) { $('acc-back').href = next; $('acc-back').textContent = t('acc.backToGame'); }
+if (next && /^\/[a-z0-9-]+\/?$/i.test(next)) { $('acc-back').href = next; $('acc-back').dataset.i18n = 'acc.backToGame'; } // applyDom() below sets the text
 
 const redirectTo = () => location.origin + location.pathname; // https://snails.se/account/
 const emailOk = (e) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
