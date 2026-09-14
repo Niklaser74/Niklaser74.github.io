@@ -57,6 +57,31 @@ const dict = {
     'footer.source': 'Källkod på GitHub',
     'footer.contact': 'hej@snails.se',
     'footer.lang': 'Språk',
+    'nav.account': 'Konto', 'nav.login': 'Logga in',
+    'acc.back': '← snails.se', 'acc.backToGame': '← Tillbaka till spelet',
+    'acc.kicker': 'Ditt konto', 'acc.title': 'Ett konto för alla spelen',
+    'acc.lead': 'Samma konto i Snäckmageddon, Snäckschack och Snail Story – och i det som kommer. Det skapas av sig självt när ett spel behöver det och finns bara i den här webbläsaren tills du kopplar det.',
+    'acc.noSession': 'Den här webbläsaren har inget konto ännu. Har du ett sedan tidigare kan du logga in här.',
+    'acc.anonymous': 'Kontot finns bara i den här webbläsaren. Koppla det till Google eller e-post så följer det med till andra enheter och överlever rensad webbdata.',
+    'acc.pending': 'Bekräftelse skickad till {email}. Klicka på länken i mejlet så är kontot kopplat.',
+    'acc.linked': 'Kontot är kopplat till {email}. På en annan enhet: skriv samma adress och välj Skicka inloggningslänk.',
+    'acc.linkedVia': 'Kontot är kopplat till {email} via Google. På en annan enhet: Fortsätt med Google.',
+    'acc.offline': 'Kunde inte nå kontot just nu. Försök igen om en stund.',
+    'acc.google': 'Fortsätt med Google', 'acc.googleInstead': 'Logga in med det Google-kontot i stället',
+    'acc.email': 'E-post', 'acc.link': 'Koppla kontot', 'acc.loginLink': 'Skicka inloggningslänk', 'acc.logout': 'Logga ut på den här enheten',
+    'acc.signinHint': 'Har du inget konto ännu? Spela något – kontot skapas när du behöver det.',
+    'acc.confirm': 'Bekräfta', 'acc.confirmHint': 'Tryck på Bekräfta för att logga in med länken.',
+    'acc.invalid': 'Det där ser inte ut som en e-postadress.', 'acc.rateLimited': 'För många mejl just nu. Vänta en stund, eller använd Google.',
+    'acc.emailTaken': 'Adressen hör redan till ett annat konto. Skicka en inloggningslänk till den i stället.',
+    'acc.noAccount': 'Ingen har kopplat den adressen ännu. Koppla ditt konto först, på den enhet där du spelar.',
+    'acc.googleTaken': 'Det Google-kontot hör redan till en annan spelare. Logga in som den, eller fortsätt med det här kontot.',
+    'acc.error': 'Något gick fel: {msg}', 'acc.linkSent': 'Bekräftelse skickad till {email}.', 'acc.loginSent': 'Inloggningslänk skickad till {email}.',
+    'acc.welcomeLinked': 'Klart – kontot är kopplat.', 'acc.welcomeLogin': 'Inloggad. Dina matcher och din snigel följer med.',
+    'acc.profileTitle': 'Namn och utseende', 'acc.profileLead': 'Gäller i alla spel. Låsta saker låses upp med vinster och Dagens skott i Snäckmageddon.',
+    'acc.name': 'Namn', 'acc.shell': 'Skal', 'acc.hat': 'Hatt', 'acc.save': 'Spara', 'acc.saved': 'Sparat.',
+    'acc.privacy': 'Vad som lagras och hur du raderar kontot',
+    'cos.shell.spiral': 'Spiral', 'cos.shell.stripes': 'Ränder', 'cos.shell.dots': 'Prickar', 'cos.shell.stars': 'Stjärnor', 'cos.shell.flame': 'Eld', 'cos.shell.gold': 'Guld', 'cos.shell.confetti': 'Konfetti',
+    'cos.hat.none': 'Ingen', 'cos.hat.cap': 'Keps', 'cos.hat.party': 'Partyhatt', 'cos.hat.crown': 'Krona', 'cos.hat.viking': 'Vikingahjälm', 'cos.hat.tophat': 'Cylinder', 'cos.hat.laurel': 'Lagerkrans',
   },
   en: {
     'title': 'snails.se – snail games by Knackpot',
@@ -110,6 +135,31 @@ const dict = {
     'footer.source': 'Source on GitHub',
     'footer.contact': 'hej@snails.se',
     'footer.lang': 'Language',
+    'nav.account': 'Account', 'nav.login': 'Sign in',
+    'acc.back': '← snails.se', 'acc.backToGame': '← Back to the game',
+    'acc.kicker': 'Your account', 'acc.title': 'One account for every game',
+    'acc.lead': 'The same account in Snailmageddon, Snail Chess and Snail Story – and whatever comes next. It is created by itself when a game needs it and lives in this browser only until you link it.',
+    'acc.noSession': 'This browser has no account yet. If you have one from before, sign in here.',
+    'acc.anonymous': 'Your account lives in this browser only. Link it to Google or e-mail and it follows you to other devices and survives cleared site data.',
+    'acc.pending': 'Confirmation sent to {email}. Click the link in the mail and the account is linked.',
+    'acc.linked': 'The account is linked to {email}. On another device: enter the same address and choose Send login link.',
+    'acc.linkedVia': 'The account is linked to {email} via Google. On another device: Continue with Google.',
+    'acc.offline': 'Could not reach the account right now. Try again in a moment.',
+    'acc.google': 'Continue with Google', 'acc.googleInstead': 'Sign in with that Google account instead',
+    'acc.email': 'E-mail', 'acc.link': 'Link the account', 'acc.loginLink': 'Send login link', 'acc.logout': 'Sign out on this device',
+    'acc.signinHint': 'No account yet? Play something – it is created when you need it.',
+    'acc.confirm': 'Confirm', 'acc.confirmHint': 'Press Confirm to sign in with the link.',
+    'acc.invalid': 'That does not look like an e-mail address.', 'acc.rateLimited': 'Too many e-mails right now. Wait a while, or use Google.',
+    'acc.emailTaken': 'That address already belongs to another account. Send a login link to it instead.',
+    'acc.noAccount': 'Nobody has linked that address yet. Link your account first, on the device where you play.',
+    'acc.googleTaken': 'That Google account already belongs to another player. Sign in as them, or keep this account.',
+    'acc.error': 'Something went wrong: {msg}', 'acc.linkSent': 'Confirmation sent to {email}.', 'acc.loginSent': 'Login link sent to {email}.',
+    'acc.welcomeLinked': 'Done – the account is linked.', 'acc.welcomeLogin': 'Signed in. Your matches and your snail come along.',
+    'acc.profileTitle': 'Name and look', 'acc.profileLead': 'Used in every game. Locked items unlock with wins and the shot of the day in Snailmageddon.',
+    'acc.name': 'Name', 'acc.shell': 'Shell', 'acc.hat': 'Hat', 'acc.save': 'Save', 'acc.saved': 'Saved.',
+    'acc.privacy': 'What is stored and how to delete the account',
+    'cos.shell.spiral': 'Spiral', 'cos.shell.stripes': 'Stripes', 'cos.shell.dots': 'Dots', 'cos.shell.stars': 'Stars', 'cos.shell.flame': 'Flame', 'cos.shell.gold': 'Gold', 'cos.shell.confetti': 'Confetti',
+    'cos.hat.none': 'None', 'cos.hat.cap': 'Cap', 'cos.hat.party': 'Party hat', 'cos.hat.crown': 'Crown', 'cos.hat.viking': 'Viking helmet', 'cos.hat.tophat': 'Top hat', 'cos.hat.laurel': 'Laurel wreath',
   },
 };
 
@@ -130,7 +180,10 @@ export function setLang(l) {
   applyDom();
 }
 export function getLang() { return lang; }
-export function t(key) { return dict[lang][key] ?? dict.sv[key] ?? key; }
+export function t(key, params) {
+  const str = dict[lang][key] ?? dict.sv[key] ?? key;
+  return params ? str.replace(/\{(\w+)\}/g, (_, k) => (k in params ? params[k] : `{${k}}`)) : str;
+}
 
 export function applyDom(root = document) {
   root.querySelectorAll('[data-i18n]').forEach((el) => { el.textContent = t(el.dataset.i18n); });

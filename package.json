@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "node scripts/serve.mjs",
-    "test": "node --test test/legacy.test.mjs test/paths.test.mjs",
+    "test": "node --test test/legacy.test.mjs test/paths.test.mjs test/account.test.mjs",
     "sync:game": "node scripts/sync-game.mjs",
     "og:image": "node scripts/og-image.mjs"
   },

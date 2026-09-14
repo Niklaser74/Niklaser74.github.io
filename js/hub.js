@@ -1,11 +1,13 @@
 // The hub page: language, the garden hero and the small snails on the cards.
 // The garden is drawn with the game's own renderers (js/game/, vendored from
 // the snailmageddon repo) so the snails here are the snails in the games.
-import { detectLang, setLang } from './i18n.js';
+import { detectLang, setLang, t } from './i18n.js';
 import { Terrain } from './game/terrain.js';
 import { THEMES } from './game/themes.js';
 import { drawSnail, TEAM_COLORS } from './game/snails.js';
 import { mulberry32 } from './game/rng.js';
+import { online } from './account.js';
+import { normalizeLook } from './game/cosmetics.js';
 
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const theme = THEMES.garden;
@@ -15,6 +17,26 @@ const dpr = () => Math.min(2, window.devicePixelRatio || 1);
 // ---------- language ----------
 setLang(detectLang());
 document.querySelectorAll('[data-lang]').forEach((b) => b.addEventListener('click', () => setLang(b.dataset.lang)));
+
+// ---------- account badge ----------
+// Only a browser that already has a session is asked who it is; looking at the
+// front page must never create an account.
+(async () => {
+  if (!online.signedIn()) return;
+  const a = document.getElementById('acc-badge'), text = document.getElementById('acc-badge-text');
+  try {
+    const p = await online.rpc('snails_profile');
+    const c = document.createElement('canvas');
+    const s = dpr();
+    c.width = 34 * s; c.height = 26 * s;
+    const ctx = c.getContext('2d');
+    ctx.setTransform(s, 0, 0, s, 0, 0);
+    drawSnail(ctx, 'cartoon', { x: 17, y: 23, facing: 1, color: '#3aaa5c', scale: 0.55, t: 0, walking: false, look: normalizeLook(p.look || {}, p.unlocked || []) });
+    a.prepend(c);
+    text.removeAttribute('data-i18n');
+    text.textContent = p.name || t('nav.account');
+  } catch { text.dataset.i18n = 'nav.account'; text.textContent = t('nav.account'); }
+})();
 
 // ---------- hero: the garden ----------
 const hero = document.getElementById('garden');

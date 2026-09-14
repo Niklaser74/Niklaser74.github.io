@@ -9,7 +9,7 @@ import { fileURLToPath } from 'node:url';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (f) => readFileSync(join(root, f), 'utf8');
-const pages = ['index.html', '404.html', 'privacy.html'];
+const pages = ['index.html', '404.html', 'privacy.html', 'account/index.html'];
 const styles = readdirSync(join(root, 'css')).map((f) => `css/${f}`);
 const OTHER_SITES = ['/snailmageddon/', '/snailchess/', '/snailrake/', '/snailman/', '/snailstory/', '/snailrow/', '/tipspromenaden/'];
 
@@ -27,7 +27,8 @@ test('every root-absolute path resolves to a file here or to another site under 
     for (const p of refs(read(f))) {
       if (p === '/' || OTHER_SITES.some((s) => p.startsWith(s))) continue;
       const file = join(root, p);
-      if (!existsSync(file) || statSync(file).isDirectory()) missing.push(`${f}: ${p}`);
+      const ok = existsSync(file) && (statSync(file).isFile() || existsSync(join(file, 'index.html'))); // a directory counts when it has an index
+      if (!ok) missing.push(`${f}: ${p}`);
     }
   }
   assert.deepEqual(missing, [], 'missing targets');

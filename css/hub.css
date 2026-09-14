@@ -89,3 +89,28 @@ footer { border-top: 1px dashed var(--line); margin-top: 24px; padding: 22px 24p
 .lost .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 24px; }
 
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+/* ---------- account badge (topbar) ---------- */
+.acc-badge { display: inline-flex; align-items: center; gap: 8px; padding: 4px 12px 4px 4px !important; }
+.acc-badge canvas { width: 34px; height: 26px; display: block; }
+
+/* ---------- account page ---------- */
+.account-main { max-width: 720px; margin: 0 auto; padding: 24px 24px 48px; display: flex; flex-direction: column; gap: 18px; }
+.account-main .back { display: inline-flex; align-items: center; min-height: 40px; align-self: flex-start; padding: 6px 14px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); font-weight: 700; text-decoration: none; }
+.acc-card { background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 22px 24px; display: flex; flex-direction: column; gap: 12px; }
+.acc-card h1 { font-size: clamp(24px, 4vw, 32px); }
+.acc-card h2 { font-size: 22px; margin: 0; }
+.acc-head { display: grid; grid-template-columns: 1fr; gap: 12px; align-items: center; }
+@media (min-width: 640px) { .acc-head { grid-template-columns: 220px 1fr; } }
+.acc-head canvas { width: 220px; height: 140px; border-radius: 12px; background: linear-gradient(#bfe3ff, #eaf6ff 60%, #7ccf7c 60%, #5aa85a); justify-self: center; }
+.acc-status { margin: 0; font-weight: 600; }
+.acc-field { display: flex; flex-direction: column; gap: 4px; font-size: 13px; font-weight: 700; color: var(--muted); max-width: 360px; }
+.acc-field input { font: inherit; font-weight: 400; color: var(--ink); padding: 9px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; }
+.hint { font-size: 13px; color: var(--soft); margin: 0; min-height: 1em; }
+.acc-pickers { display: flex; flex-wrap: wrap; gap: 18px; }
+.plabel { display: block; font-size: 12px; font-weight: 700; color: var(--muted); margin-bottom: 6px; }
+.picker { display: flex; flex-wrap: wrap; gap: 6px; }
+.picker button { font: inherit; font-size: 13px; padding: 6px 10px; border-radius: 999px; border: 1px solid var(--line); background: #fff; color: var(--ink); cursor: pointer; }
+.picker button.sel { background: var(--ink); color: #fff; border-color: var(--ink); }
+.picker button.locked { opacity: .55; cursor: default; }
+.acc-foot { text-align: center; }
