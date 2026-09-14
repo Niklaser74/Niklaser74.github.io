@@ -22,6 +22,8 @@ Kör testerna innan du säger att du är klar.
 ```
 index.html / 404.html / privacy.html   sidorna
 js/legacy.js                            vilka rot-URL:er som är gamla spellänkar → /snailmageddon/
+js/account.js                           seriens Supabase-klient — källan; spelen vendorar
+account/index.html, js/account-page.js  kontosidan (inloggning, koppling, namn, utseende)
 js/hub.js, js/i18n.js                   hero, kort, sv/en
 js/game/                                kopior från snailmageddon-repot — redigera aldrig här
 sw.js                                   kill-switch för spelets gamla service worker på scope /
@@ -50,6 +52,10 @@ sw.js                                   kill-switch för spelets gamla service w
 - `.well-known/assetlinks.json`, `privacy.html` — externa parter (Play) pekar
   på dem.
 - `js/game/*` — kopior; ändra i spelrepot och synka.
+- `js/account.js` ägs av hubben och vendoras till spelen: ändringar här måste
+  följas av `npm run sync:account` i Snäckmageddon, Snäckschack och Snail Story
+  i samma veva (sessionsnyckeln `snails.session` delas; olika versioner med
+  roterande refresh-tokens ger två konton på samma enhet).
 - `docs-vault/` — projektlokalt Obsidian-vault, ska aldrig committas
   (`.gitignore`).
 

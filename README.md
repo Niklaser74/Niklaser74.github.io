@@ -42,6 +42,18 @@ Allt på snails.se delar **en origin**. Därför:
 startsidan är sniglarna i spelen. Redigera dem inte här; ändra i spelrepot och
 kör `npm run sync:game`.
 
+## Kontot
+
+Ett konto för hela serien. Hubben äger klienten (`js/account.js`: session
+under `snails.session`, refresh, RPC, Google- och e-postkoppling) och
+kontosidan `/account/` (logga in, koppla, namn och utseende). Startsidan
+visar din snigel och ditt namn i topbaren när en session finns; utan session
+skapas inget konto av att man tittar. Spel som pratar med Supabase vendorar
+klienten oförändrad: kopiera `scripts/sync-account.template.mjs` till spelets
+`scripts/sync-account.mjs`, kör den, och låt spelets `js/supa.js` re-exportera
+`online` från `./account.js`. Ändra aldrig klienten i ett spelrepo — ändra här
+och synka. Länka från spelet till `/account/?next=/<spel>/`.
+
 ## Kör
 
 | Vad | Kommando |
@@ -49,6 +61,7 @@ kör `npm run sync:game`.
 | Utveckling | `npm start` → http://localhost:8081/ |
 | Tester | `npm test` |
 | Hämta spelets renderare | `npm run sync:game` (`GAME_DIR=../dev-snailmageddon`) |
+| Kontosidan lokalt | `npm start` → http://localhost:8081/account/ (utan session; Google/mejl kräver snails.se) |
 | OG-bild | `npx playwright install chromium` en gång, sedan `npm run og:image` |
 | Deploy | push till `main` → `.github/workflows/pages.yml` |
 
@@ -65,7 +78,8 @@ kör `npm run sync:game`.
 3. Eget `manifest.id` (t.ex. `/snailman/`), eget cache-prefix i `sw.js`, egna
    `localStorage`-nycklar.
 4. Samma Supabase-projekt (`snails`, se spelrepots `supabase/README.md`), egna
-   tabeller med spelets prefix. Konton delas.
+   tabeller med spelets prefix. Kontot delas: vendora `js/account.js` enligt
+   avsnittet Kontot ovan, aldrig en egen klient.
 5. Kort på hubben (`index.html` + strängar i `js/i18n.js`), rad i
    `sitemap.xml`.
 
@@ -75,7 +89,9 @@ kör `npm run sync:game`.
 index.html, 404.html, privacy.html   sidorna
 sw.js                                 kill-switch, ingen cache
 js/legacy.js                          vart gamla spellänkar ska
-js/hub.js, js/i18n.js                 hero, kort, språk
+js/hub.js, js/i18n.js                 hero, kort, språk, kontomärke
+js/account.js, js/config.js           seriens Supabase-klient (vendoras av spelen)
+account/, js/account-page.js          kontosidan
 js/game/                              spelets renderare (kopior)
 css/hub.css                           spelets palett
 img/, icons/                          figurer, favicon, OG-bild, Knackpot-märke
