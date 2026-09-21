@@ -74,3 +74,81 @@ test('with no session the first call signs in anonymously once, even for concurr
   assert.equal(calls.filter((c) => c.url.endsWith('/auth/v1/signup')).length, 1, 'one sign-up shared by both callers');
   assert.equal(online.userId(), 'anon1');
 });
+
+// ---------- login-CSRF: a callback is only accepted if this browser started one ----------
+const smem = new Map();
+globalThis.sessionStorage = {
+  getItem: (k) => (smem.has(k) ? smem.get(k) : null),
+  setItem: (k, v) => smem.set(k, String(v)),
+  removeItem: (k) => smem.delete(k),
+};
+globalThis.history = { replaceState: () => {} };
+const arriveWith = (fragment) => {
+  globalThis.location = { hash: '#' + fragment, search: '', pathname: '/account/' };
+  return online.handleRedirect();
+};
+const tokens = (sub) => `access_token=${jwt(sub)}&refresh_token=r&expires_in=3600`;
+
+test('an unsolicited Google callback is refused and stores nothing', () => {
+  smem.clear();
+  const back = arriveWith(tokens('attacker'));
+  assert.equal(back.type, 'error');
+  assert.equal(back.code, 'unsolicited');
+  assert.equal(mem.has('snails.session'), false, 'the attacker session must not be stored');
+  assert.equal(online.signedIn(), false);
+});
+
+test('a Google callback is accepted after startAuth', () => {
+  smem.clear();
+  online.startAuth();
+  const back = arriveWith(tokens('u1'));
+  assert.equal(back.type, 'oauth');
+  assert.equal(stored('snails.session').user_id, 'u1');
+});
+
+test('one attempt buys one callback: a replayed link is refused', () => {
+  smem.clear();
+  online.startAuth();
+  assert.equal(arriveWith(tokens('u1')).type, 'oauth');
+  online.signOut();
+  const again = arriveWith(tokens('attacker'));
+  assert.equal(again.code, 'unsolicited');
+  assert.equal(online.signedIn(), false);
+});
+
+test('an attempt older than fifteen minutes is refused', () => {
+  smem.clear();
+  smem.set('snails.pendingAuth', JSON.stringify({ at: Date.now() - 16 * 60 * 1000, uid: null }));
+  assert.equal(arriveWith(tokens('attacker')).code, 'unsolicited');
+  assert.equal(online.signedIn(), false);
+});
+
+test('a mail link on another device is held until the player confirms', () => {
+  smem.clear();
+  const back = arriveWith(tokens('u2') + '&type=magiclink');
+  assert.equal(back.needsConfirm, true);
+  assert.equal(back.type, 'magiclink');
+  assert.equal(online.signedIn(), false, 'nothing is stored before the press');
+  assert.equal(online.heldUserId(), 'u2', 'the page can say whose account it is');
+  online.confirmHeld();
+  assert.equal(stored('snails.session').user_id, 'u2');
+});
+
+test('a mail link opened where it was requested needs no confirmation', () => {
+  smem.clear();
+  online.startAuth();
+  const back = arriveWith(tokens('u3') + '&type=magiclink');
+  assert.equal(back.needsConfirm, undefined);
+  assert.equal(stored('snails.session').user_id, 'u3');
+});
+
+test('a browser that blocks sessionStorage can still sign in with Google', () => {
+  const real = globalThis.sessionStorage;
+  Object.defineProperty(globalThis, 'sessionStorage', { get() { throw new Error('blocked'); }, configurable: true });
+  try {
+    const back = arriveWith(tokens('u4'));
+    assert.equal(back.type, 'oauth', 'refusing here would lock the player out entirely');
+  } finally {
+    Object.defineProperty(globalThis, 'sessionStorage', { value: real, writable: true, configurable: true });
+  }
+});

@@ -69,6 +69,7 @@ const goGoogle = async (link) => {
   try {
     if (link && await isEmptyAccount()) link = false;
     try { sessionStorage.setItem(BEFORE_KEY, online.userId() || ''); } catch { /* ignore */ }
+    online.startAuth(); // the callback is only accepted because of this
     location.assign(await online.googleUrl(redirectTo(), link));
   } catch (e) { msg(accountError(e)); }
 };
@@ -84,14 +85,27 @@ const emailAction = (btn, input, fn) => btn.addEventListener('click', async () =
   btn.disabled = false;
   render();
 });
-emailAction($('btn-link-email'), 'acc-email', async (email) => { await online.linkEmail(email, redirectTo()); return t('acc.linkSent', { email }); });
-emailAction($('btn-login-email-2'), 'acc-email', async (email) => { await online.sendLoginLink(email, redirectTo()); return t('acc.loginSent', { email }); });
-emailAction($('btn-login-email'), 'acc-email-login', async (email) => { await online.sendLoginLink(email, redirectTo()); return t('acc.loginSent', { email }); });
+// startAuth() first: opened in this browser the link needs no extra confirmation,
+// and on another device the player gets the confirm button instead.
+emailAction($('btn-link-email'), 'acc-email', async (email) => { online.startAuth(); await online.linkEmail(email, redirectTo()); return t('acc.linkSent', { email }); });
+emailAction($('btn-login-email-2'), 'acc-email', async (email) => { online.startAuth(); await online.sendLoginLink(email, redirectTo()); return t('acc.loginSent', { email }); });
+emailAction($('btn-login-email'), 'acc-email-login', async (email) => { online.startAuth(); await online.sendLoginLink(email, redirectTo()); return t('acc.loginSent', { email }); });
 $('btn-logout').addEventListener('click', () => { online.signOut(); location.reload(); });
 
 // coming back from Google or a mail link
 const afterAuth = async (back) => {
+  if (back.needsConfirm) { // a mail link opened where the sign-in was not started
+    msg(t('acc.confirmHint'));
+    $('btn-confirm').hidden = false;
+    $('btn-confirm').addEventListener('click', async () => {
+      $('btn-confirm').disabled = true;
+      try { online.confirmHeld(); $('btn-confirm').hidden = true; await afterAuth({ type: back.type }); }
+      catch (e) { msg(accountError(e)); $('btn-confirm').disabled = false; }
+    }, { once: true });
+    return;
+  }
   if (back.type === 'error') {
+    if (back.code === 'unsolicited') { msg(t('acc.unsolicited')); render(); return; }
     if (back.code === 'identity_already_exists' || back.code === 'email_exists') {
       if (await isEmptyAccount()) return goGoogle(false); // nothing to lose here: just sign in as that account
       msg(t('acc.googleTaken'));
