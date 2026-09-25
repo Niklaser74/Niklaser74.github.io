@@ -53,7 +53,7 @@ sw.js                                   kill-switch för spelets gamla service w
   på dem.
 - `js/game/*` — kopior; ändra i spelrepot och synka.
 - `js/account.js` ägs av hubben och vendoras till spelen: ändringar här måste
-  följas av `npm run sync:account` i Snäckmageddon, Snäckschack och Snail Story
+  följas av `npm run sync:account` i Snäckmageddon, Snäckschack, Snail Story och Luffarsnigel
   i samma veva (sessionsnyckeln `snails.session` delas; olika versioner med
   roterande refresh-tokens ger två konton på samma enhet).
 - `docs-vault/` — projektlokalt Obsidian-vault, ska aldrig committas
