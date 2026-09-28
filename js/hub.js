@@ -1,7 +1,7 @@
 // The hub page: language, the garden hero and the small snails on the cards.
 // The garden is drawn with the game's own renderers (js/game/, vendored from
 // the snailmageddon repo) so the snails here are the snails in the games.
-import { detectLang, setLang, t } from './i18n.js';
+import { detectLang, setLang, t, getLang } from './i18n.js';
 import { Terrain } from './game/terrain.js';
 import { THEMES } from './game/themes.js';
 import { drawSnail, TEAM_COLORS } from './game/snails.js';
@@ -39,32 +39,41 @@ document.querySelectorAll('[data-lang]').forEach((b) => b.addEventListener('clic
   } catch { text.dataset.i18n = 'nav.account'; text.textContent = t('nav.account'); }
 })();
 
-// ---------- Snigelkrattan: today's leader ----------
-// snailrake_daily_leader is the one function open to anon (name, score, how
-// many played — what the daily board shows everyone), so this needs no account:
-// a plain call with the publishable key, never online.rpc.
-let leader = null;
-function renderLeader() {
-  const el = document.getElementById('g5-leader');
-  if (!el || !leader) return;
-  const top = leader.leader;
-  el.textContent = top
-    ? t('g5.leader', { name: top.name, score: top.score }) + (leader.players > 1 ? ' · ' + t('g5.players', { n: leader.players }) : '')
-    : t('g5.noLeader');
-  el.hidden = false;
+// ---------- Snigelkrattan: today's leader and the week's top three ----------
+// snailrake_daily_leader and snailrake_week_top are the only functions open to
+// anon (display names and scores — what the boards show everyone), so this
+// needs no account: plain calls with the publishable key, never online.rpc.
+const live = { leader: null, week: null };
+async function publicRpc(name) {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/${name}`, {
+    method: 'POST', headers: { apikey: SUPABASE_KEY, 'Content-Type': 'application/json' }, body: '{}',
+  });
+  if (!res.ok) throw new Error(`${name} ${res.status}`);
+  return res.json();
 }
-(async () => {
-  if (!SUPABASE_URL || !SUPABASE_KEY) return;
-  try {
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/snailrake_daily_leader`, {
-      method: 'POST', headers: { apikey: SUPABASE_KEY, 'Content-Type': 'application/json' }, body: '{}',
-    });
-    if (!res.ok) return;
-    leader = await res.json();
-    renderLeader();
-  } catch { /* the card reads fine without it */ }
-})();
-document.querySelectorAll('[data-lang]').forEach((b) => b.addEventListener('click', renderLeader));
+const num = (n) => Number(n).toLocaleString(getLang() === 'sv' ? 'sv-SE' : 'en-GB');
+function renderLive() {
+  const lead = document.getElementById('g5-leader');
+  if (lead && live.leader) {
+    const top = live.leader.leader;
+    lead.textContent = top
+      ? t('g5.leader', { name: top.name, score: num(top.score) }) + (live.leader.players > 1 ? ' · ' + t('g5.players', { n: live.leader.players }) : '')
+      : t('g5.noLeader');
+    lead.hidden = false;
+  }
+  const week = document.getElementById('g5-week');
+  if (week && live.week) {
+    const medals = ['🥇', '🥈', '🥉'];
+    const rows = live.week.top.map((r, i) => `${medals[i]} ${r.name} ${num(r.score)}`);
+    week.textContent = rows.length ? `${t('g5.week')} ${rows.join(' · ')}` : '';
+    week.hidden = !rows.length;
+  }
+}
+if (SUPABASE_URL && SUPABASE_KEY) {
+  publicRpc('snailrake_daily_leader').then((r) => { live.leader = r; renderLive(); }).catch(() => { /* the card reads fine without it */ });
+  publicRpc('snailrake_week_top').then((r) => { live.week = r; renderLive(); }).catch(() => {});
+}
+document.querySelectorAll('[data-lang]').forEach((b) => b.addEventListener('click', renderLive));
 
 // ---------- hero: the garden ----------
 const hero = document.getElementById('garden');

@@ -117,3 +117,4 @@ footer { border-top: 1px dashed var(--line); margin-top: 24px; padding: 22px 24p
 
 /* a live line on a card (Snigelkrattan: today's leader) */
 .card .card-live { color: var(--accent); font-weight: 700; font-size: 14px; }
+.card .card-live.week { color: var(--muted); font-weight: 600; font-size: 13px; margin-top: -6px; }
