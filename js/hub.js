@@ -7,6 +7,7 @@ import { THEMES } from './game/themes.js';
 import { drawSnail, TEAM_COLORS } from './game/snails.js';
 import { mulberry32 } from './game/rng.js';
 import { online } from './account.js';
+import { SUPABASE_URL, SUPABASE_KEY } from './config.js';
 import { normalizeLook } from './game/cosmetics.js';
 
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -37,6 +38,33 @@ document.querySelectorAll('[data-lang]').forEach((b) => b.addEventListener('clic
     text.textContent = p.name || t('nav.account');
   } catch { text.dataset.i18n = 'nav.account'; text.textContent = t('nav.account'); }
 })();
+
+// ---------- Snigelkrattan: today's leader ----------
+// snailrake_daily_leader is the one function open to anon (name, score, how
+// many played — what the daily board shows everyone), so this needs no account:
+// a plain call with the publishable key, never online.rpc.
+let leader = null;
+function renderLeader() {
+  const el = document.getElementById('g5-leader');
+  if (!el || !leader) return;
+  const top = leader.leader;
+  el.textContent = top
+    ? t('g5.leader', { name: top.name, score: top.score }) + (leader.players > 1 ? ' · ' + t('g5.players', { n: leader.players }) : '')
+    : t('g5.noLeader');
+  el.hidden = false;
+}
+(async () => {
+  if (!SUPABASE_URL || !SUPABASE_KEY) return;
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/snailrake_daily_leader`, {
+      method: 'POST', headers: { apikey: SUPABASE_KEY, 'Content-Type': 'application/json' }, body: '{}',
+    });
+    if (!res.ok) return;
+    leader = await res.json();
+    renderLeader();
+  } catch { /* the card reads fine without it */ }
+})();
+document.querySelectorAll('[data-lang]').forEach((b) => b.addEventListener('click', renderLeader));
 
 // ---------- hero: the garden ----------
 const hero = document.getElementById('garden');
