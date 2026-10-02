@@ -9,6 +9,7 @@ import { mulberry32 } from './game/rng.js';
 import { online } from './account.js';
 import { SUPABASE_URL, SUPABASE_KEY } from './config.js';
 import { normalizeLook } from './game/cosmetics.js';
+import { gameOfDay } from './daily.js';
 
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const theme = THEMES.garden;
@@ -18,6 +19,28 @@ const dpr = () => Math.min(2, window.devicePixelRatio || 1);
 // ---------- language ----------
 setLang(detectLang());
 document.querySelectorAll('[data-lang]').forEach((b) => b.addEventListener('click', () => setLang(b.dataset.lang)));
+
+// ---------- dagens spel ----------
+// One game leads the page each day (js/daily.js): its card goes first with a
+// "Dagens spel" badge, and the hero's play button goes to it. Without JS the
+// page still reads in its written order with Snäckmageddon in the hero.
+const today = gameOfDay();
+const todayCard = document.querySelector(`.card[data-game="${today}"]`);
+const heroPlay = document.getElementById('hero-play');
+if (todayCard) {
+  todayCard.classList.add('today');
+  todayCard.parentElement.prepend(todayCard);
+  const badge = todayCard.querySelector('.badge');
+  if (badge) { badge.dataset.i18n = 'badge.today'; badge.textContent = t('badge.today'); }
+  heroPlay.href = `/${today}/`;
+  heroPlay.removeAttribute('data-i18n'); // the text names the game; renderHero keeps it in the current language
+}
+function renderHero() {
+  const title = todayCard?.querySelector('[data-title]');
+  if (title) heroPlay.textContent = t('hero.today', { name: t(title.dataset.i18n) });
+}
+renderHero();
+document.querySelectorAll('[data-lang]').forEach((b) => b.addEventListener('click', renderHero));
 
 // ---------- account badge ----------
 // Only a browser that already has a session is asked who it is; looking at the

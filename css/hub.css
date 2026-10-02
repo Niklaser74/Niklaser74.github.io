@@ -61,6 +61,9 @@ h2 { font-size: 28px; margin: 0 0 6px; }
 .card:not(.live) canvas.snail { max-width: 200px; }
 .badge { position: absolute; top: 14px; right: 14px; font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; padding: 4px 9px; border-radius: 999px; background: var(--chip); color: var(--muted); }
 .badge.live { background: var(--accent); color: #fff; }
+/* dagens spel: first in the list, with a frame in the accent colour */
+.card.today { border: 2px solid var(--accent); box-shadow: 0 6px 24px rgba(58, 170, 92, .18); }
+.card.today .badge { background: var(--ink); }
 .card h3 { margin: 0; font-size: 20px; }
 .card.live h3 { font-size: 26px; }
 .card p { margin: 0; color: var(--muted); font-size: 15px; }
