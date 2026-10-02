@@ -62,11 +62,12 @@ document.querySelectorAll('[data-lang]').forEach((b) => b.addEventListener('clic
   } catch { text.dataset.i18n = 'nav.account'; text.textContent = t('nav.account'); }
 })();
 
-// ---------- Snigelkrattan: today's leader and the week's top three ----------
-// snailrake_daily_leader and snailrake_week_top are the only functions open to
-// anon (display names and scores — what the boards show everyone), so this
-// needs no account: plain calls with the publishable key, never online.rpc.
-const live = { leader: null, week: null, stats: null, mine: null };
+// ---------- live lines on the cards: Snigelkrattan and Snailman ----------
+// snailrake_daily_leader, snailrake_week_top, snailrake_tourney_stats and
+// snailman_daily_leader are open to anon (display names, scores and counts —
+// what the boards show everyone), so this needs no account: plain calls with
+// the publishable key, never online.rpc.
+const live = { leader: null, week: null, stats: null, mine: null, snailman: null };
 async function publicRpc(name) {
   const res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/${name}`, {
     method: 'POST', headers: { apikey: SUPABASE_KEY, 'Content-Type': 'application/json' }, body: '{}',
@@ -75,15 +76,19 @@ async function publicRpc(name) {
   return res.json();
 }
 const num = (n) => Number(n).toLocaleString(getLang() === 'sv' ? 'sv-SE' : 'en-GB');
+// "Today X leads with N points · M have played", or an invitation to be first.
+// prefix picks the card's strings: 'g5' Snigelkrattan, 'g2' Snailman.
+function leaderLine(el, data, prefix) {
+  if (!el || !data) return;
+  const top = data.leader;
+  el.textContent = top
+    ? t(prefix + '.leader', { name: top.name, score: num(top.score) }) + (data.players > 1 ? ' · ' + t(prefix + '.players', { n: data.players }) : '')
+    : t(prefix + '.noLeader');
+  el.hidden = false;
+}
 function renderLive() {
-  const lead = document.getElementById('g5-leader');
-  if (lead && live.leader) {
-    const top = live.leader.leader;
-    lead.textContent = top
-      ? t('g5.leader', { name: top.name, score: num(top.score) }) + (live.leader.players > 1 ? ' · ' + t('g5.players', { n: live.leader.players }) : '')
-      : t('g5.noLeader');
-    lead.hidden = false;
-  }
+  leaderLine(document.getElementById('g5-leader'), live.leader, 'g5');
+  leaderLine(document.getElementById('g2-leader'), live.snailman, 'g2');
   const week = document.getElementById('g5-week');
   if (week && live.week) {
     const medals = ['🥇', '🥈', '🥉'];
@@ -132,6 +137,7 @@ if (SUPABASE_URL && SUPABASE_KEY) {
   publicRpc('snailrake_daily_leader').then((r) => { live.leader = r; renderLive(); }).catch(() => { /* the card reads fine without it */ });
   publicRpc('snailrake_week_top').then((r) => { live.week = r; renderLive(); }).catch(() => {});
   publicRpc('snailrake_tourney_stats').then((r) => { live.stats = r; renderLive(); }).catch(() => {});
+  publicRpc('snailman_daily_leader').then((r) => { live.snailman = r; renderLive(); }).catch(() => {});
   // only with a session this browser already has — the front page never creates an account
   if (online.signedIn()) online.rpc('snailrake_tourney_mine').then((r) => { live.mine = r; renderLive(); }).catch(() => {});
 }
