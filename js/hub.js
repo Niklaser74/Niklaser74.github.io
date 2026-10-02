@@ -66,7 +66,7 @@ document.querySelectorAll('[data-lang]').forEach((b) => b.addEventListener('clic
 // snailrake_daily_leader and snailrake_week_top are the only functions open to
 // anon (display names and scores — what the boards show everyone), so this
 // needs no account: plain calls with the publishable key, never online.rpc.
-const live = { leader: null, week: null };
+const live = { leader: null, week: null, stats: null, mine: null };
 async function publicRpc(name) {
   const res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/${name}`, {
     method: 'POST', headers: { apikey: SUPABASE_KEY, 'Content-Type': 'application/json' }, body: '{}',
@@ -91,10 +91,49 @@ function renderLive() {
     week.textContent = rows.length ? `${t('g5.week')} ${rows.join(' · ')}` : '';
     week.hidden = !rows.length;
   }
+  const tours = document.getElementById('g5-tourneys');
+  if (tours && live.stats) {
+    const { open, rounds_week: rounds } = live.stats;
+    tours.textContent = [
+      open > 1 ? t('g5.open', { open }) : open === 1 ? t('g5.open1') : '',
+      rounds > 1 ? t('g5.rounds', { rounds }) : rounds === 1 ? t('g5.rounds1') : '',
+    ].filter(Boolean).join(' · ');
+    tours.hidden = !tours.textContent;
+  }
+  // a browser that already has an account sees its own running tournaments, as links
+  const mine = document.getElementById('g5-mine');
+  if (mine && live.mine) {
+    const running = live.mine.filter((m) => !m.final).slice(0, 3);
+    mine.replaceChildren();
+    if (running.length) {
+      mine.append(t('g5.mine') + ' ');
+      running.forEach((m, i) => {
+        if (i) mine.append(' · ');
+        const a = document.createElement('a');
+        a.href = `/snailrake/?t=${encodeURIComponent(m.code)}`;
+        a.textContent = m.code;
+        const where = m.me_rank === 1 && m.players > 1 ? t('g5.lead') : m.me_rank ? t('g5.place', { rank: m.me_rank }) : t('g5.notYet');
+        const left = m.status === 'open' ? ', ' + t('g5.left', { left: untilLabel(new Date(m.closes_at) - new Date(m.now)) }) : '';
+        mine.append(a, ` (${where}${left})`);
+      });
+    }
+    mine.hidden = !running.length;
+  }
+}
+// "2 d 3 h", "5 h 10 min", "4 min" — the same label the game's lobby uses
+function untilLabel(ms) {
+  const m = Math.max(0, Math.ceil(ms / 60000));
+  const d = Math.floor(m / 1440), h = Math.floor((m % 1440) / 60), min = m % 60;
+  if (d) return h ? `${d} d ${h} h` : `${d} d`;
+  if (h) return min ? `${h} h ${min} min` : `${h} h`;
+  return `${min} min`;
 }
 if (SUPABASE_URL && SUPABASE_KEY) {
   publicRpc('snailrake_daily_leader').then((r) => { live.leader = r; renderLive(); }).catch(() => { /* the card reads fine without it */ });
   publicRpc('snailrake_week_top').then((r) => { live.week = r; renderLive(); }).catch(() => {});
+  publicRpc('snailrake_tourney_stats').then((r) => { live.stats = r; renderLive(); }).catch(() => {});
+  // only with a session this browser already has — the front page never creates an account
+  if (online.signedIn()) online.rpc('snailrake_tourney_mine').then((r) => { live.mine = r; renderLive(); }).catch(() => {});
 }
 document.querySelectorAll('[data-lang]').forEach((b) => b.addEventListener('click', renderLive));
 
