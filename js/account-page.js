@@ -40,7 +40,7 @@ function drawMe() {
 // ---------- status ----------
 async function render() {
   const st = $('acc-status');
-  $('acc-signin').hidden = true; $('acc-link').hidden = true; $('btn-logout').hidden = true; $('acc-profile').hidden = true;
+  $('acc-signin').hidden = true; $('acc-link').hidden = true; $('btn-logout').hidden = true; $('acc-profile').hidden = true; $('acc-delete').hidden = true;
   if (!online.signedIn()) { st.textContent = t('acc.noSession'); $('acc-signin').hidden = false; drawMe(); return; }
   try {
     const u = await online.user(true);
@@ -48,6 +48,8 @@ async function render() {
     else if (u.pendingEmail) { st.textContent = t('acc.pending', { email: u.pendingEmail }); $('acc-link').hidden = false; }
     else { st.textContent = t('acc.anonymous'); $('acc-link').hidden = false; }
     $('acc-profile').hidden = false;
+    $('acc-delete').hidden = false;
+    $('acc-delete-msg').textContent = u.email && !u.anonymous ? t('acc.delLinked', { email: u.email }) : '';
     await loadProfile();
   } catch (e) { st.textContent = t('acc.offline'); drawMe(); }
 }
@@ -176,6 +178,28 @@ $('btn-save').addEventListener('click', async () => {
     drawMe();
   } catch (e) { $('acc-profile-msg').textContent = t('acc.error', { msg: e.message }); }
   $('btn-save').disabled = false;
+});
+
+// ---------- delete the account ----------
+// The button wakes up only when the word is typed (RADERA or DELETE, either
+// language); the server checks the word again. online.deleteAccount never
+// signs in first, and signs this browser out afterwards.
+const deleteWordOk = () => ['RADERA', 'DELETE'].includes($('acc-delete-word').value.trim().toUpperCase());
+$('acc-delete-word').addEventListener('input', () => { $('btn-delete').disabled = !deleteWordOk(); });
+$('btn-delete').addEventListener('click', async () => {
+  if (!deleteWordOk()) return;
+  $('btn-delete').disabled = true;
+  $('acc-delete-msg').textContent = t('acc.delWorking');
+  try {
+    await online.deleteAccount($('acc-delete-word').value.trim());
+    $('acc-delete-word').value = '';
+    look = { ...DEFAULT_LOOK };
+    await render();
+    $('acc-status').textContent = t('acc.delDone');
+  } catch (e) {
+    $('acc-delete-msg').textContent = t('acc.error', { msg: e.message });
+    $('btn-delete').disabled = !deleteWordOk();
+  }
 });
 
 document.querySelectorAll('[data-lang]').forEach((b) => b.addEventListener('click', () => { setLang(b.dataset.lang); render(); }));

@@ -17,6 +17,8 @@ import { SUPABASE_URL, SUPABASE_KEY } from './config.js';
 
 const LS_SESSION = 'snails.session';
 const LS_LEGACY = 'snackmageddon.session';
+// results a game keeps until it can send them; dropped when the account is deleted
+const PENDING_KEYS = ['snailman.pending', 'snailrake.pending'];
 let session = null;
 let userCache = null;
 let pendingToken = null;
@@ -155,6 +157,20 @@ export const online = {
   },
 
   signOut() { saveSession(null); userCache = null; },
+
+  // Deletes the account and everything every game has stored for it, for good
+  // (snails_delete_account; the game tables cascade from auth.users). word is
+  // what the player typed, RADERA or DELETE. Never signs in to do it: with no
+  // session there is nothing to delete, and an anonymous sign-up first would
+  // only create an account to throw away. Afterwards this browser is signed
+  // out, and results the games were waiting to send are dropped — sent later
+  // they would bring the player back under a new account.
+  async deleteAccount(word) {
+    if (!loadSession()?.access_token) throw new Error('not signed in');
+    await this.rpc('snails_delete_account', { p_confirm: String(word ?? '') });
+    this.signOut();
+    for (const k of PENDING_KEYS) { try { store()?.removeItem(k); } catch { /* blocked */ } }
+  },
 
   // ---------- who am I ----------
   async user(fresh = false) {

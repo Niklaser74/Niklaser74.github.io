@@ -47,6 +47,36 @@ test('signing out removes both keys so the old copy cannot come back', () => {
   assert.equal(online.signedIn(), false);
 });
 
+test('deleting the account without a session sends nothing and creates nothing', async () => {
+  await assert.rejects(online.deleteAccount('RADERA'), /not signed in/);
+  assert.equal(calls.length, 0, 'no anonymous sign-up just to delete it');
+  assert.equal(mem.has('snails.session'), false);
+});
+
+test('deleting the account calls the RPC with the word, then signs out and drops waiting results', async () => {
+  mem.set('snails.session', JSON.stringify({ access_token: jwt('u1'), refresh_token: 'r1', expires_at: Date.now() + 3600e3, user_id: 'u1' }));
+  mem.set('snailman.pending', '{"daily:2026-10-02":{}}');
+  mem.set('snailrake.pending', '{}');
+  mem.set('snailman.best', '1200');
+  responses = [{ status: 204, body: null }];
+  await online.deleteAccount('RADERA');
+  assert.equal(calls.length, 1);
+  assert.ok(calls[0].url.endsWith('/rest/v1/rpc/snails_delete_account'), calls[0].url);
+  assert.equal(calls[0].method, 'POST');
+  assert.equal(online.signedIn(), false);
+  assert.equal(mem.has('snails.session'), false);
+  assert.equal(mem.has('snailman.pending'), false);
+  assert.equal(mem.has('snailrake.pending'), false);
+  assert.equal(mem.get('snailman.best'), '1200', 'what only lives in this browser stays');
+});
+
+test('a refused deletion leaves the player signed in', async () => {
+  mem.set('snails.session', JSON.stringify({ access_token: jwt('u1'), refresh_token: 'r1', expires_at: Date.now() + 3600e3, user_id: 'u1' }));
+  responses = [{ status: 400, body: { message: 'not confirmed' } }];
+  await assert.rejects(online.deleteAccount('ja'), /not confirmed/);
+  assert.equal(online.signedIn(), true);
+});
+
 test('rpc retries once after a 401 with a refreshed token', async () => {
   mem.set('snails.session', JSON.stringify({ access_token: 'old', refresh_token: 'r1', expires_at: Date.now() + 3600e3, user_id: 'u1' }));
   responses = [

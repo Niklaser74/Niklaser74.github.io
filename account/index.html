@@ -71,6 +71,24 @@
     <p class="hint" id="acc-profile-msg"></p>
   </section>
 
+  <section class="acc-card acc-danger" id="acc-delete" hidden>
+    <h2 data-i18n="acc.delTitle">Radera kontot</h2>
+    <p data-i18n="acc.delLead">Kontot och allt det har i alla spel raderas direkt, och det går inte att ångra:</p>
+    <ul class="acc-list">
+      <li data-i18n="acc.delMatches">Matcher, partier och serier – även för den du spelade mot</li>
+      <li data-i18n="acc.delTourneys">Turneringar du har skapat, med de andras omgångar</li>
+      <li data-i18n="acc.delBoards">Dina placeringar på topplistor, rekord och rating</li>
+      <li data-i18n="acc.delProfile">Namn, utseende, upplåsta saker och köp</li>
+      <li data-i18n="acc.delPush">Notiser, påminnelser och kopian av Snail Storys låda</li>
+    </ul>
+    <p class="hint" data-i18n="acc.delLocal">Det som bara finns i den här webbläsaren, som sparade spel och inställningar, rörs inte. Spelar du igen skapas ett nytt, tomt konto.</p>
+    <label class="acc-field"><span id="acc-delete-label" data-i18n="acc.delType">Skriv RADERA för att bekräfta</span><input type="text" id="acc-delete-word" autocomplete="off" autocapitalize="characters" spellcheck="false"></label>
+    <div class="actions">
+      <button id="btn-delete" class="btn danger" disabled data-i18n="acc.delButton">Radera kontot för alltid</button>
+    </div>
+    <p class="hint" id="acc-delete-msg"></p>
+  </section>
+
   <p class="hint acc-foot"><a href="/privacy.html" data-i18n="acc.privacy">Vad som lagras och hur du raderar kontot</a></p>
 </main>
 <script type="module" src="/js/account-page.js"></script>
