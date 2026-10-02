@@ -14,6 +14,11 @@
   main.policy h2 { font-size: 20px; margin: 28px 0 6px; }
   main.policy p, main.policy li { color: var(--ink); }
   main.policy hr { border: 0; border-top: 1px solid var(--line); margin: 40px 0; }
+  table.keep { width: 100%; border-collapse: collapse; font-size: 15px; margin: 8px 0; }
+  table.keep th, table.keep td { text-align: left; vertical-align: top; padding: 6px 10px 6px 0; border-top: 1px solid var(--line); }
+  table.keep tr:first-child th { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); border-top: 0; }
+  table.keep tr.game th { padding-top: 16px; font-size: 15px; border-top: 0; }
+  table.keep td:last-child { color: var(--muted); }
   .back { display: inline-flex; align-items: center; min-height: 40px; margin-bottom: 16px; padding: 6px 14px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); font-weight: 700; text-decoration: none; }
 </style>
 </head>
@@ -22,18 +27,46 @@
 <a class="back" href="/">← snails.se</a>
 
 <h1>Integritetspolicy för spelen på snails.se</h1>
-<p>Senast uppdaterad 2026-09-10. Gäller alla spel på snails.se (just nu <a href="/snailmageddon/">Snäckmageddon</a>) samt deras versioner på Google Play, itch.io och Poki. Ett spel kan ha en egen, mer detaljerad policy: <a href="/snailmageddon/privacy.html">Snäckmageddon</a>.</p>
+<p>Senast uppdaterad 2026-10-02. Gäller alla spel på snails.se – <a href="/snailmageddon/">Snäckmageddon</a>, <a href="/snailman/">Snailman</a>, <a href="/snailchess/">Snäckschack</a>, <a href="/snailstory/">Snail Story</a>, <a href="/snailrake/">Snigelkrattan</a> och <a href="/snailrow/">Luffarsnigel</a> – samt deras versioner på Google Play, itch.io och Poki. Ett spel kan ha en egen, mer detaljerad policy: <a href="/snailmageddon/privacy.html">Snäckmageddon</a>.</p>
 
 <h2>Vad som lagras</h2>
 <ul>
   <li><b>Inställningar</b> (språk, ljud, utseende) sparas bara i din webbläsare (localStorage). Startsidan sparar bara ditt språkval.</li>
-  <li><b>Anonymt konto.</b> När du använder funktioner som kräver ett konto – matcher mot andra, dagliga utmaningar, säsonger, profil – skapas ett anonymt konto hos vår leverantör Supabase (servrar i Stockholm, EU). Kontot har ett slumpat id, inget namn och ingen e-post, och delas av spelen på snails.se.</li>
+  <li><b>Anonymt konto.</b> När du använder funktioner som kräver ett konto – matcher och turneringar mot andra, topplistor, dagliga utmaningar, säsonger, profil, kopia av sparat spel – skapas ett anonymt konto hos vår leverantör Supabase (servrar i Stockholm, EU). Kontot har ett slumpat id, inget namn och ingen e-post, och delas av spelen på snails.se.</li>
   <li><b>Valfritt:</b> om du kopplar kontot till Google lagras din e-postadress och ett Google-id så att du kan logga in på andra enheter; vi får inget annat från Google. Kopplar du en e-postadress i stället lagras den, och mejlen (bekräftelse och inloggning) skickas via Resend. Ingen marknadsföring.</li>
-  <li><b>Speldata</b>: det spelet behöver för att fungera – matcher (drag, ställning, valfritt spelarnamn), poäng, rating, utseende och belöningar. Varje spel anger sina egna lagringstider.</li>
+  <li><b>Speldata</b>: det spelet behöver för att fungera – matcher och turneringar (drag, ställning, resultat), poäng, rating, utseende och belöningar, och ett spelarnamn som du väljer själv. Hur länge det sparas står per spel nedan.</li>
+  <li><b>Det andra ser.</b> Ditt spelarnamn och dina resultat syns för andra på topplistor och för dem du spelar mot. Välj ett namn som du är bekväm med att visa – det behöver inte vara ditt riktiga.</li>
+  <li><b>Inspelningar.</b> Några spel sparar dina knapptryck i en omgång tillsammans med resultatet, så att omgången kan spelas upp igen och kontrolleras: Dagens skott i Snäckmageddon, dueller i Snäckschack, och alla omgångar i Snailmans Dagens labyrint och turneringar. Inspelningen innehåller bara knapptryck och tidpunkter i spelet, inget om dig eller din enhet.</li>
   <li><b>Användningsstatistik</b>: ett fåtal anonyma händelser (start, matchstart och matchslut, fel) med version och språk. Inga IP-adresser sparas av oss, ingen spårning över andra sajter, ingen statistik alls om webbläsaren har Do Not Track påslaget.</li>
-  <li><b>Notiser</b>: om du slår på notiser sparas din push-prenumeration för att kunna säga till när något hänt, till exempel att det är din tur. Vissa spel sparar också <i>när</i> du ska påminnas och det namn du gett din snigel, så att notisen kan använda det — i Snail Story är det kläckning, dvala, födelsedagar och slutet. Du kan stänga av dem när som helst, och då raderas både prenumerationen och påminnelserna.</li>
+  <li><b>Notiser</b>: om du slår på notiser sparas din push-prenumeration för att kunna säga till när något hänt, till exempel att det är din tur eller att någon har spelat sin omgång i en turnering. Vissa spel sparar också <i>när</i> du ska påminnas och det namn du gett din snigel, så att notisen kan använda det — i Snail Story är det kläckning, dvala, födelsedagar och slutet. Du kan stänga av dem när som helst, och då raderas både prenumerationen och påminnelserna.</li>
   <li><b>Köp</b> (bara på snails.se): betalningen sköts av Stripe. Vi ser inga kortuppgifter, bara att köpet är gjort och vilken sak det gäller.</li>
 </ul>
+
+<h2>Hur länge det sparas</h2>
+<table class="keep">
+  <tr><th>Vad</th><th>Hur länge</th></tr>
+  <tr class="game"><th colspan="2">Snäckmageddon</th></tr>
+  <tr><td>Obesvarade inbjudningar</td><td>30 dagar</td></tr>
+  <tr><td>Avslutade matcher och serier</td><td>90 dagar efter slutet</td></tr>
+  <tr><td>Dagens skott</td><td>60 dagar</td></tr>
+  <tr><td>Rating, profil och köp</td><td>så länge kontot finns</td></tr>
+  <tr class="game"><th colspan="2">Snailman</th></tr>
+  <tr><td>Dagens labyrint</td><td>60 dagar</td></tr>
+  <tr><td>Turneringar med omgångar och inspelningar</td><td>90 dagar efter att turneringen slutat</td></tr>
+  <tr><td>Ditt rekord</td><td>så länge kontot finns</td></tr>
+  <tr class="game"><th colspan="2">Snäckschack och Luffarsnigel</th></tr>
+  <tr><td>Obesvarade inbjudningar</td><td>30 dagar</td></tr>
+  <tr><td>Avslutade partier och serier</td><td>90 dagar efter slutet</td></tr>
+  <tr class="game"><th colspan="2">Snigelkrattan</th></tr>
+  <tr><td>Turneringar</td><td>30 dagar</td></tr>
+  <tr><td>Dagens hög</td><td>90 dagar</td></tr>
+  <tr><td>Veckolistan</td><td>ett år</td></tr>
+  <tr><td>Ditt rekord</td><td>så länge kontot finns</td></tr>
+  <tr class="game"><th colspan="2">Snail Story</th></tr>
+  <tr><td>Påminnelser</td><td>tills påminnelsen skickats</td></tr>
+  <tr><td>Kopia av lådan på kontot</td><td>tills du stänger av kopian</td></tr>
+</table>
+<p>Ber du oss radera ditt konto raderar vi också allt som hör till det i alla spel, oavsett tiderna ovan.</p>
 
 <h2>Vad som inte görs</h2>
 <ul>
@@ -54,18 +87,46 @@
 <hr>
 
 <h1 id="en">Privacy policy for the games at snails.se</h1>
-<p>Last updated 2026-09-10. Applies to every game at snails.se (currently <a href="/snailmageddon/">Snailmageddon</a>) and their versions on Google Play, itch.io and Poki. A game may have its own, more detailed policy: <a href="/snailmageddon/privacy.html">Snailmageddon</a>.</p>
+<p>Last updated 2026-10-02. Applies to every game at snails.se – <a href="/snailmageddon/">Snailmageddon</a>, <a href="/snailman/">Snailman</a>, <a href="/snailchess/">Snail Chess</a>, <a href="/snailstory/">Snail Story</a>, <a href="/snailrake/">Snail Rake</a> and <a href="/snailrow/">Snail in a Row</a> – and their versions on Google Play, itch.io and Poki. A game may have its own, more detailed policy: <a href="/snailmageddon/privacy.html">Snailmageddon</a>.</p>
 
 <h2>What is stored</h2>
 <ul>
   <li><b>Settings</b> (language, sound, look) are kept in your browser only (localStorage). The front page stores only your language choice.</li>
-  <li><b>Anonymous account.</b> When you use features that need an account – matches against others, daily challenges, seasons, a profile – an anonymous account is created with our provider Supabase (servers in Stockholm, EU). It has a random id, no name and no e-mail, and is shared by the games at snails.se.</li>
+  <li><b>Anonymous account.</b> When you use features that need an account – matches and tournaments against others, leaderboards, daily challenges, seasons, a profile, a copy of a saved game – an anonymous account is created with our provider Supabase (servers in Stockholm, EU). It has a random id, no name and no e-mail, and is shared by the games at snails.se.</li>
   <li><b>Optional:</b> if you link the account to Google, your e-mail address and a Google id are stored so you can sign in on other devices; we receive nothing else from Google. If you link an e-mail address instead, it is stored and the e-mails (confirmation and sign-in) are sent through Resend. No marketing.</li>
-  <li><b>Game data</b>: what a game needs to work – matches (turns, score, an optional player name), scores, rating, look and awards. Each game states its own retention.</li>
+  <li><b>Game data</b>: what a game needs to work – matches and tournaments (turns, score, results), scores, rating, look and awards, and a player name you choose yourself. How long it is kept is listed per game below.</li>
+  <li><b>What others see.</b> Your player name and your results are visible to others on leaderboards and to the people you play against. Pick a name you are comfortable showing – it does not have to be your real one.</li>
+  <li><b>Recordings.</b> Some games store your button presses in a round together with the result, so the round can be replayed and checked: Shot of the day in Snailmageddon, duels in Snail Chess, and every round in Snailman's Maze of the day and tournaments. A recording holds only button presses and in-game times, nothing about you or your device.</li>
   <li><b>Usage statistics</b>: a handful of anonymous events (start, match start and end, errors) with version and language. We store no IP addresses, do no cross-site tracking, and record nothing at all when the browser sends Do Not Track.</li>
-  <li><b>Notifications</b>: if you turn them on, your push subscription is stored so we can tell you when something happened, such as it being your turn. Some games also store <i>when</i> to remind you and the name you gave your snail, so the notification can use it — in Snail Story that is hatching, sealing up, birthdays and the end. You can switch them off at any time, which deletes both the subscription and the reminders.</li>
+  <li><b>Notifications</b>: if you turn them on, your push subscription is stored so we can tell you when something happened, such as it being your turn or somebody having played their round in a tournament. Some games also store <i>when</i> to remind you and the name you gave your snail, so the notification can use it — in Snail Story that is hatching, sealing up, birthdays and the end. You can switch them off at any time, which deletes both the subscription and the reminders.</li>
   <li><b>Purchases</b> (snails.se only): payment is handled by Stripe. We never see card details, only that a purchase was made and for which item.</li>
 </ul>
+
+<h2>How long it is kept</h2>
+<table class="keep">
+  <tr><th>What</th><th>How long</th></tr>
+  <tr class="game"><th colspan="2">Snailmageddon</th></tr>
+  <tr><td>Unanswered invitations</td><td>30 days</td></tr>
+  <tr><td>Finished matches and series</td><td>90 days after the end</td></tr>
+  <tr><td>Shot of the day</td><td>60 days</td></tr>
+  <tr><td>Rating, profile and purchases</td><td>as long as the account exists</td></tr>
+  <tr class="game"><th colspan="2">Snailman</th></tr>
+  <tr><td>Maze of the day</td><td>60 days</td></tr>
+  <tr><td>Tournaments with rounds and recordings</td><td>90 days after the tournament ended</td></tr>
+  <tr><td>Your record</td><td>as long as the account exists</td></tr>
+  <tr class="game"><th colspan="2">Snail Chess and Snail in a Row</th></tr>
+  <tr><td>Unanswered invitations</td><td>30 days</td></tr>
+  <tr><td>Finished games and series</td><td>90 days after the end</td></tr>
+  <tr class="game"><th colspan="2">Snail Rake</th></tr>
+  <tr><td>Tournaments</td><td>30 days</td></tr>
+  <tr><td>The daily pile</td><td>90 days</td></tr>
+  <tr><td>The weekly board</td><td>one year</td></tr>
+  <tr><td>Your record</td><td>as long as the account exists</td></tr>
+  <tr class="game"><th colspan="2">Snail Story</th></tr>
+  <tr><td>Reminders</td><td>until the reminder is sent</td></tr>
+  <tr><td>A copy of the box on the account</td><td>until you switch the copy off</td></tr>
+</table>
+<p>If you ask us to delete your account, we also delete everything that belongs to it in every game, whatever the times above.</p>
 
 <h2>What we do not do</h2>
 <ul>
