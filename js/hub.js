@@ -63,11 +63,11 @@ document.querySelectorAll('[data-lang]').forEach((b) => b.addEventListener('clic
 })();
 
 // ---------- live lines on the cards: Snigelkrattan and Snailman ----------
-// snailrake_daily_leader, snailrake_week_top, snailrake_tourney_stats and
-// snailman_daily_leader are open to anon (display names, scores and counts —
+// snailrake_daily_leader, snailrake_week_top, snailrake_tourney_stats,
+// snailman_daily_leader and snailman_contest_stats are open to anon (display names, scores and counts —
 // what the boards show everyone), so this needs no account: plain calls with
 // the publishable key, never online.rpc.
-const live = { leader: null, week: null, stats: null, mine: null, snailman: null };
+const live = { leader: null, week: null, stats: null, mine: null, snailman: null, smStats: null, smMine: null };
 async function publicRpc(name) {
   const res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/${name}`, {
     method: 'POST', headers: { apikey: SUPABASE_KEY, 'Content-Type': 'application/json' }, body: '{}',
@@ -76,6 +76,16 @@ async function publicRpc(name) {
   return res.json();
 }
 const num = (n) => Number(n).toLocaleString(getLang() === 'sv' ? 'sv-SE' : 'en-GB');
+// "2 tournaments running · 9 rounds played this week"; nothing when both are 0.
+function statsLine(el, data, prefix) {
+  if (!el || !data) return;
+  const { open, rounds_week: rounds } = data;
+  el.textContent = [
+    open > 1 ? t(prefix + '.open', { open }) : open === 1 ? t(prefix + '.open1') : '',
+    rounds > 1 ? t(prefix + '.rounds', { rounds }) : rounds === 1 ? t(prefix + '.rounds1') : '',
+  ].filter(Boolean).join(' · ');
+  el.hidden = !el.textContent;
+}
 // "Today X leads with N points · M have played", or an invitation to be first.
 // prefix picks the card's strings: 'g5' Snigelkrattan, 'g2' Snailman.
 function leaderLine(el, data, prefix) {
@@ -96,14 +106,24 @@ function renderLive() {
     week.textContent = rows.length ? `${t('g5.week')} ${rows.join(' · ')}` : '';
     week.hidden = !rows.length;
   }
-  const tours = document.getElementById('g5-tourneys');
-  if (tours && live.stats) {
-    const { open, rounds_week: rounds } = live.stats;
-    tours.textContent = [
-      open > 1 ? t('g5.open', { open }) : open === 1 ? t('g5.open1') : '',
-      rounds > 1 ? t('g5.rounds', { rounds }) : rounds === 1 ? t('g5.rounds1') : '',
-    ].filter(Boolean).join(' · ');
-    tours.hidden = !tours.textContent;
+  statsLine(document.getElementById('g5-tourneys'), live.stats, 'g5');
+  statsLine(document.getElementById('g2-contests'), live.smStats, 'g2');
+  // Snailman's Snigelpost: the caller's running tournaments, their turn first
+  const sm = document.getElementById('g2-mine');
+  if (sm && live.smMine) {
+    const running = live.smMine.slice(0, 3);
+    sm.replaceChildren();
+    if (running.length) {
+      sm.append(t('g2.mine') + ' ');
+      running.forEach((c, i) => {
+        if (i) sm.append(' · ');
+        const a = document.createElement('a');
+        a.href = `/snailman/?contest=${encodeURIComponent(c.id)}`;
+        a.textContent = c.next ? t('g2.turn', { round: c.next }) : t('g2.wait');
+        sm.append(a, ` (${t('g2.left', { left: untilLabel(new Date(c.deadline) - new Date(c.now)) })})`);
+      });
+    }
+    sm.hidden = !running.length;
   }
   // a browser that already has an account sees its own running tournaments, as links
   const mine = document.getElementById('g5-mine');
@@ -138,8 +158,12 @@ if (SUPABASE_URL && SUPABASE_KEY) {
   publicRpc('snailrake_week_top').then((r) => { live.week = r; renderLive(); }).catch(() => {});
   publicRpc('snailrake_tourney_stats').then((r) => { live.stats = r; renderLive(); }).catch(() => {});
   publicRpc('snailman_daily_leader').then((r) => { live.snailman = r; renderLive(); }).catch(() => {});
+  publicRpc('snailman_contest_stats').then((r) => { live.smStats = r; renderLive(); }).catch(() => {});
   // only with a session this browser already has — the front page never creates an account
-  if (online.signedIn()) online.rpc('snailrake_tourney_mine').then((r) => { live.mine = r; renderLive(); }).catch(() => {});
+  if (online.signedIn()) {
+    online.rpc('snailrake_tourney_mine').then((r) => { live.mine = r; renderLive(); }).catch(() => {});
+    online.rpc('snailman_contest_mine_brief').then((r) => { live.smMine = r; renderLive(); }).catch(() => {});
+  }
 }
 document.querySelectorAll('[data-lang]').forEach((b) => b.addEventListener('click', renderLive));
 
