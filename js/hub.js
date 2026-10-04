@@ -65,10 +65,10 @@ document.querySelectorAll('[data-lang]').forEach((b) => b.addEventListener('clic
 // ---------- live lines on the cards: Snigelkrattan and Snailman ----------
 // snailrake_daily_leader, snailrake_week_top, snailrake_tourney_stats,
 // snailman_daily_leader, snailman_contest_stats, snails_daily_leader and
-// snailchess_streak_leader are open to anon (display names, scores and counts —
+// snailchess_streak_leader and snailrow_streak_leader are open to anon (display names, scores and counts —
 // what the boards show everyone), so this needs no account: plain calls with
 // the publishable key, never online.rpc.
-const live = { daily1: null, streak3: null, leader: null, week: null, stats: null, mine: null, snailman: null, smStats: null, smMine: null };
+const live = { daily1: null, streak3: null, streak6: null, leader: null, week: null, stats: null, mine: null, snailman: null, smStats: null, smMine: null };
 async function publicRpc(name) {
   const res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/${name}`, {
     method: 'POST', headers: { apikey: SUPABASE_KEY, 'Content-Type': 'application/json' }, body: '{}',
@@ -89,7 +89,7 @@ function statsLine(el, data, prefix) {
 }
 // "Today X leads with N points · M have played", or an invitation to be first.
 // prefix picks the card's strings: 'g1' Snäckmageddon, 'g2' Snailman, 'g3' Snäckschack
-// (its "score" is the streak in days), 'g5' Snigelkrattan.
+// and 'g6' Luffarsnigel (their "score" is the streak in days), 'g5' Snigelkrattan.
 function leaderLine(el, data, prefix) {
   if (!el || !data) return;
   const top = data.leader;
@@ -101,6 +101,7 @@ function leaderLine(el, data, prefix) {
 function renderLive() {
   leaderLine(document.getElementById('g1-leader'), live.daily1, 'g1');
   leaderLine(document.getElementById('g3-leader'), live.streak3, 'g3');
+  leaderLine(document.getElementById('g6-leader'), live.streak6, 'g6');
   leaderLine(document.getElementById('g5-leader'), live.leader, 'g5');
   leaderLine(document.getElementById('g2-leader'), live.snailman, 'g2');
   const week = document.getElementById('g5-week');
@@ -164,6 +165,7 @@ if (SUPABASE_URL && SUPABASE_KEY) {
   publicRpc('snailman_daily_leader').then((r) => { live.snailman = r; renderLive(); }).catch(() => {});
   publicRpc('snails_daily_leader').then((r) => { live.daily1 = r; renderLive(); }).catch(() => {});
   publicRpc('snailchess_streak_leader').then((r) => { live.streak3 = r; renderLive(); }).catch(() => {});
+  publicRpc('snailrow_streak_leader').then((r) => { live.streak6 = r; renderLive(); }).catch(() => {});
   publicRpc('snailman_contest_stats').then((r) => { live.smStats = r; renderLive(); }).catch(() => {});
   // only with a session this browser already has — the front page never creates an account
   if (online.signedIn()) {
