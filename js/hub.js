@@ -64,10 +64,10 @@ document.querySelectorAll('[data-lang]').forEach((b) => b.addEventListener('clic
 
 // ---------- live lines on the cards: Snigelkrattan and Snailman ----------
 // snailrake_daily_leader, snailrake_week_top, snailrake_tourney_stats,
-// snailman_daily_leader and snailman_contest_stats are open to anon (display names, scores and counts —
+// snailman_daily_leader, snailman_contest_stats and snails_daily_leader are open to anon (display names, scores and counts —
 // what the boards show everyone), so this needs no account: plain calls with
 // the publishable key, never online.rpc.
-const live = { leader: null, week: null, stats: null, mine: null, snailman: null, smStats: null, smMine: null };
+const live = { daily1: null, leader: null, week: null, stats: null, mine: null, snailman: null, smStats: null, smMine: null };
 async function publicRpc(name) {
   const res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/${name}`, {
     method: 'POST', headers: { apikey: SUPABASE_KEY, 'Content-Type': 'application/json' }, body: '{}',
@@ -87,7 +87,7 @@ function statsLine(el, data, prefix) {
   el.hidden = !el.textContent;
 }
 // "Today X leads with N points · M have played", or an invitation to be first.
-// prefix picks the card's strings: 'g5' Snigelkrattan, 'g2' Snailman.
+// prefix picks the card's strings: 'g1' Snäckmageddon, 'g2' Snailman, 'g5' Snigelkrattan.
 function leaderLine(el, data, prefix) {
   if (!el || !data) return;
   const top = data.leader;
@@ -97,6 +97,7 @@ function leaderLine(el, data, prefix) {
   el.hidden = false;
 }
 function renderLive() {
+  leaderLine(document.getElementById('g1-leader'), live.daily1, 'g1');
   leaderLine(document.getElementById('g5-leader'), live.leader, 'g5');
   leaderLine(document.getElementById('g2-leader'), live.snailman, 'g2');
   const week = document.getElementById('g5-week');
@@ -158,6 +159,7 @@ if (SUPABASE_URL && SUPABASE_KEY) {
   publicRpc('snailrake_week_top').then((r) => { live.week = r; renderLive(); }).catch(() => {});
   publicRpc('snailrake_tourney_stats').then((r) => { live.stats = r; renderLive(); }).catch(() => {});
   publicRpc('snailman_daily_leader').then((r) => { live.snailman = r; renderLive(); }).catch(() => {});
+  publicRpc('snails_daily_leader').then((r) => { live.daily1 = r; renderLive(); }).catch(() => {});
   publicRpc('snailman_contest_stats').then((r) => { live.smStats = r; renderLive(); }).catch(() => {});
   // only with a session this browser already has — the front page never creates an account
   if (online.signedIn()) {
