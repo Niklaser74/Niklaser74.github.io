@@ -44,7 +44,18 @@ test('an installed copy of the old game opens the game', () => {
   assert.equal(target('', '', { matchMedia: browser }), null);
   assert.equal(target('', '', { nav: { standalone: true } }), '/snailmageddon/');
   assert.equal(target('', '', { referrer: 'android-app://se.snails.app' }), '/snailmageddon/');
+  assert.equal(target('', '', { referrer: 'android-app://se.snails.app/' }), '/snailmageddon/');
   assert.equal(target('', '', { referrer: 'https://example.com/' }), null);
+});
+
+test('a link tapped inside another Android app still lands on the hub', () => {
+  // Custom Tabs pass the host app as the referrer; only the game's own shell counts
+  for (const r of ['android-app://com.google.android.googlequicksearchbox/',
+    'android-app://com.google.android.gm/',
+    'android-app://com.android.chrome/',
+    'android-app://se.snails.app.evil/']) {
+    assert.equal(target('', '', { referrer: r }), null, r);
+  }
 });
 
 test('a broken matchMedia never breaks the hub', () => {

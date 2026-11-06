@@ -15,6 +15,11 @@
   var HASH = /(^#|[#&])(access_token|refresh_token|error|type)=/;
   // an installed copy of the old game (PWA or Play TWA) opens the root in one of these
   var MODES = ['standalone', 'fullscreen', 'minimal-ui'];
+  // Only the Play shell counts as an app referrer. Every Android app that opens
+  // a link in a Custom Tab (the Google app, Gmail, Messages) sends its own
+  // android-app:// referrer, and treating those as the game sent first-time
+  // visitors from a phone straight past the hub.
+  var APP = 'android-app://se.snails.app';
 
   // loc: { search, hash } · nav: { standalone } · matchMedia: function or null · referrer: string
   // Returns the game URL to go to, or null when the visitor really wants the hub.
@@ -22,7 +27,8 @@
     var q = new URLSearchParams(loc.search || '');
     var query = KEYS.some(function (k) { return q.has(k); });
     var hash = HASH.test(loc.hash || '');
-    var app = !!(nav && nav.standalone) || (typeof referrer === 'string' && referrer.indexOf('android-app://') === 0);
+    var fromApp = typeof referrer === 'string' && (referrer === APP || referrer.indexOf(APP + '/') === 0);
+    var app = !!(nav && nav.standalone) || fromApp;
     if (!app && typeof matchMedia === 'function') {
       app = MODES.some(function (m) {
         try { return matchMedia('(display-mode: ' + m + ')').matches; } catch (e) { return false; }
